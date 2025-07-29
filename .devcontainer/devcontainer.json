@@ -1,0 +1,49 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+  "name": "Lead Generation Scraper",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "postCreateCommand": "./.devcontainer/post-create.sh",
+  "forwardPorts": [
+    5173,
+    5273
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.azurecli",
+        "ms-toolsai.jupyter",
+        "ms-azuretools.vscode-bicep",
+        "esbenp.prettier-vscode",
+        "mechatroner.rainbow-csv",
+        "mhutchie.git-graph",
+        "hashicorp.terraform"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.pythonPath": "/usr/local/bin/python",
+        "isort.args": [
+          "--profile",
+          "black"
+        ]
+      }
+    }
+  },
+  "mounts": [
+    "source=${env:LEAD_GENERATION_SCRAPER_STORAGE_PATH},target=/workspaces/lead-generation-scraper-storage,type=bind,consistency=cached"
+  ]
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+}

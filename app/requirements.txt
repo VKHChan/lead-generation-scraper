@@ -1,0 +1,15 @@
+injector
+matplotlib
+requests
+pandas
+pyarrow
+pyodbc
+python-dotenv
+openpyxl
+tenacity
+tavily-python
+duckduckgo_search
+google_search_results
+mediatr
+hypercorn
+fastapi
