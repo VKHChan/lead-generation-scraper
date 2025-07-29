@@ -36,4 +36,10 @@ env/
 # Project specific
 *.csv
 *.log
-local_config.ini 
+local_config.ini
+
+# Test coverage
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/ 
