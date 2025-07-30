@@ -4,108 +4,62 @@
 
 ### 1.1 Primary Business Goals
 
-- Identify automation opportunities in Canadian non-profits
-- Gather comprehensive data about non-profit operations and needs
-- Enable data-driven decision making for automation solutions
+- Identify common automation pain points in Canadian non-profits
+- Build a database of organizations likely experiencing these pain points
+- Enable targeted outreach with relevant automation solutions
 
 ### 1.2 Core User Stories
 
-1. As a researcher, I want to:
+1. As a business analyst, I want to:
 
-   - Automatically collect data about Canadian non-profits
-   - Access collected data in a structured format
-   - Track new organizations and changes over time
+   - Identify common operational challenges in non-profits
+   - Categorize and prioritize automation opportunities
+   - Understand the frequency and impact of each pain point
 
-2. As a data analyst, I want to:
+2. As a lead researcher, I want to:
 
-   - Filter organizations by various criteria
-   - Export data for further analysis
-   - Identify common automation needs
+   - Find organizations that match identified pain points
+   - Gather relevant contact information
+   - Track potential fit between solutions and organizations
 
-3. As a system administrator, I want to:
-   - Monitor scraping job status
-   - Ensure data collection complies with site policies
-   - Manage API access
+3. As a data analyst, I want to:
+   - Filter and segment organizations by pain points
+   - Generate reports on market opportunities
+   - Prioritize outreach based on fit and potential impact
 
 ### 1.3 Success Criteria
 
-- Reliable weekly data collection from specified sources
-- Accurate organization and automation needs data
-- Structured, deduplicated data storage
-- Accessible data retrieval via API
-- Scalable system design for future expansion
+- Comprehensive database of common non-profit pain points
+- Clear mapping between pain points and potential automation solutions
+- Quality contact information for relevant decision-makers
+- Ability to match organizations with specific solutions
+- Data-driven prioritization of outreach efforts
 
-## 1.4 System Architecture Overview
+## 2. Data Collection Strategy
 
-### 1.4.1 Component Diagram
+### 2.1 Pain Point Discovery Sources
 
-The following diagram shows the main components of the system and their interactions:
+- Industry Reports and Studies:
+  - Non-profit technology surveys
+  - Sector analysis reports
+  - Academic research papers
+- Professional Forums:
+  - Non-profit technology forums
+  - LinkedIn group discussions
+  - Professional association forums
+- Job Postings:
+  - Administrative role descriptions
+  - Technology position requirements
+  - Process improvement initiatives
+- Grant Applications:
+  - Operational challenge descriptions
+  - Technology upgrade proposals
+  - Capacity building requests
+- Other sources:
+  - Reddit discussion
+  - freelance job sites such as Upwork for current automation needs
 
-```mermaid
-flowchart TD
-    Client[Client Applications]
-    API[API Layer]
-    Auth[Authentication]
-    Scheduler[Job Scheduler]
-    Manager[Scraper Manager]
-    Storage[Storage Layer]
-    Sites[External Sites]
-
-    Client --> |API Requests| API
-    API --> |Validate| Auth
-    API --> |Create/Query Jobs| Manager
-    Scheduler --> |Trigger Jobs| Manager
-    Manager --> |Fetch Data| Sites
-    Manager --> |Store Data| Storage
-    API --> |Query Data| Storage
-```
-
-### 1.4.2 Sequence of Operations
-
-The following diagram shows the sequence of operations for a typical scraping job:
-
-```mermaid
-sequenceDiagram
-    actor C as Client
-    participant A as API
-    participant M as Manager
-    participant S as Storage
-    participant E as Sites
-
-    C->>A: 1. Start Scrape Job
-    A->>M: 2. Create Job
-    M->>S: 3. Save Status
-    M->>E: 4. Fetch Data
-    E->>M: 5. Return Data
-    M->>S: 6. Save Data
-    C->>A: 7. Get Results
-    A->>S: 8. Query Data
-    S->>A: 9. Return Data
-    A->>C: 10. Send Results
-```
-
-### 1.4.3 Key Interactions
-
-1. **Job Management**
-
-   - Manual job initiation via API
-   - Automated weekly scheduling
-   - Job status tracking
-
-2. **Data Collection**
-
-   - Rate-limited external site scraping
-   - Data validation and transformation
-   - Deduplication during storage
-
-3. **Data Access**
-   - Filtered data retrieval
-   - Status checking
-   - Error handling and validation
-
-## 2. Data Collection Requirements
-
-### 2.1 Primary Data Sources
+### 2.2 Organization Discovery Sources
 
 - Canadian Non-Profit Directories:
   - Canada Revenue Agency (CRA) Charities Listing
@@ -115,157 +69,103 @@ sequenceDiagram
 - Professional Networks:
   - LinkedIn Canadian non-profit groups
   - Canadian Non-profit Technology Network
-  - Ontario Nonprofit Network (ONN)
-- Job Boards:
-  - CharityVillage job postings
-  - WorkInNonProfit.ca
-  - Indeed Canada (non-profit filter)
-- Industry Forums and Discussions:
-  - Canadian Association of Gift Planners forums
-  - AFP Canada discussions
-  - Provincial non-profit association forums
+  - Provincial non-profit associations
+- Industry Events:
+  - Conference attendee lists
+  - Webinar participants
+  - Workshop registrations
 
-### 2.2 Data Points to Collect
+### 2.3 Data Points to Collect
 
-- Organization Information:
+#### Pain Points Information:
+
+- Problem Category:
+  - Administrative processes
+  - Financial operations
+  - Program management
+  - Stakeholder engagement
+  - Compliance and reporting
+- Impact Metrics:
+  - Time spent on manual tasks
+  - Error rates and rework
+  - Staff/volunteer frustration
+  - Cost implications
+- Current Solutions:
+  - Existing tools used
+  - Workarounds implemented
+  - Previous automation attempts
+
+#### Organization Information:
+
+- Basic Details:
   - Organization name
-  - Charitable registration number (if applicable)
-  - Province/Territory
-  - City
-  - Organization size categories:
-    - Staff count
-    - Volunteer count
-    - Annual revenue
-    - Operating budget range
-  - Primary cause/focus area
-  - Year established
-- Operational Information:
-  - Current technology stack (if mentioned)
-  - Administrative processes described
-  - Grant application processes
-  - Donor management systems
-  - Volunteer coordination methods
-  - Digital presence (website, social media)
-- Automation Opportunities (categorized by area):
-  - Administrative Tasks:
-    - Data entry requirements
-    - Document processing needs
-    - Filing and record keeping
-  - Financial Operations:
-    - Bookkeeping processes
-    - Donation processing
-    - Expense tracking
-    - Financial reporting
-  - Program Management:
-    - Impact measurement methods
-    - Participant tracking
-    - Service delivery tracking
-  - Stakeholder Engagement:
-    - Donor management
-    - Volunteer coordination
-    - Member communications
-    - Event management
-  - Compliance & Reporting:
-    - CRA reporting requirements
-    - Grant reporting processes
-    - Program outcome tracking
-- Technology Assessment:
-  - Current software solutions
-  - Pain points with existing systems
-  - Manual processes identified
-  - Integration needs
+  - Location (city/province)
+  - Size category
+  - Primary cause/focus
+- Technology Context:
+  - Current systems in use
+  - Recent technology investments
+  - Known pain points
 - Contact Information:
-  - Public contact details
-  - Key staff roles (Executive Director, Operations Manager, etc.)
-  - Professional social media profiles
+  - Key decision makers
+  - Technology leaders
+  - Operations managers
+- Engagement Status:
+  - Pain points identified
+  - Solution relevance score
+  - Contact history
 
 ## 3. Technical Requirements
 
-### 3.1 API & Features
+### 3.1 Core Features
 
-- Core Architecture:
+- Pain Point Analysis:
+  - Categorization system
+  - Impact scoring
+  - Solution mapping
+- Organization Matching:
+  - Pain point alignment scoring
+  - Priority calculation
+  - Outreach scheduling
+- Data Management:
+  - Flexible storage system
+  - Deduplication
+  - Data enrichment capabilities
 
-  - Headless API-first design
-  - RESTful API endpoints
-  - Weekly batch processing
+### 3.2 API Requirements
 
-- API Endpoints:
-  - POST /api/v1/scrape
-    - Initiate a new scraping job
-    - Returns job ID for tracking
-  - GET /api/v1/scrape/status/{jobId}
-    - Get status of a specific scraping job
-  - GET /api/v1/leads
-    - Retrieve scraped leads
-    - Support filtering and pagination
-    - Optional CSV format export
-  - GET /api/v1/leads/{leadId}
-    - Retrieve specific lead details
+- Data Collection Endpoints:
+  - Pain point recording
+  - Organization information
+  - Contact details
+- Analysis Endpoints:
+  - Match scoring
+  - Priority calculations
+  - Report generation
+- Integration Support:
+  - CRM system compatibility
+  - Export capabilities
+  - Webhook notifications
 
-### 3.2 Core Features
+### 3.3 Security & Compliance
 
-- Automated Data Collection:
-  - Weekly scheduled scraping
-  - Rate limiting and robots.txt compliance
-  - Error handling and logging
-- Data Processing:
-  - Automatic deduplication
-  - Data validation and sanitization
-  - Structured data formatting
-- Data Storage:
-  - Local CSV storage (default)
-  - Extensible storage interface
-  - Basic querying capabilities
-
-### 3.3 Data Validation
-
-- Basic Validation:
-  - URL validation
-  - Email format verification
-  - Phone number formatting
-  - Required field checking
-- Data Sanitization:
-  - HTML stripping
-  - Text normalization
-  - Special character handling
-
-### 3.4 Security & Rate Limiting
-
+- Data Protection:
+  - Contact information security
+  - Access control
+  - Audit logging
+- Compliance:
+  - CASL requirements
+  - Privacy regulations
+  - Terms of service adherence
 - API Authentication:
   - API key authentication
   - Basic rate limiting
-- Compliance:
-  - Respect for robots.txt
-  - Adherence to site Terms of Service
-
-### 3.5 Storage Abstraction
-
-- Provider Interface Requirements:
-  - Basic CRUD operations
-  - Batch operation support
-  - Deduplication functionality
-  - Flexible querying capabilities
-- Storage Provider Responsibilities:
-  - Data persistence
-  - Data retrieval with filtering
-  - Duplicate detection
-  - Error handling
-- Implementation Requirements:
-  - Support for multiple storage types
-  - Consistent interface across providers
-  - Easy provider switching
-  - Data format consistency
 
 ## Questions for Further Refinement:
 
-1. Should we prioritize non-profits of a particular size or annual revenue range?
-2. Are there specific provinces we should focus on first?
-3. Should we prioritize certain types of automation needs (e.g., donor management vs. volunteer coordination)?
-4. What is the minimum viable dataset we need for each organization?
-5. What authentication method should we implement for the API?
-6. Should we implement webhook notifications for completed scraping jobs?
-7. What should be the default rate limiting parameters?
-8. What is the required data retention period?
-9. What should be the format of the CSV files for local storage?
-10. Should we implement any basic data compression for local storage?
-11. What metrics should we track for monitoring scraping performance?
+1. How should we score/prioritize different pain points?
+2. What criteria determine a good match between pain point and organization?
+3. How do we validate pain point relevance for specific organizations?
+4. What metrics should we track for outreach effectiveness?
+5. How do we maintain data freshness and accuracy?
+6. What integration capabilities are needed for outreach tools?
