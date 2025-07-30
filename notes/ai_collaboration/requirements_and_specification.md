@@ -1,6 +1,6 @@
 # Initial Requirements Gathering
 
-We started by creating a high-level requirements document through discussion with an AI agent. The agent helped refine requirements by asking targeted questions across key areas:
+We started by creating a high-level requirements document through discussion with an AI agent. The agent helped refine requirements by asking targeted questions across key areas such as:
 
 ### Data Collection
 
@@ -28,9 +28,9 @@ We started by creating a high-level requirements document through discussion wit
 - Deployment preferences
 - Infrastructure requirements
 
-**AI was super helpful** in laying out a clear roadmap for our project requirements. It asked smart questions we might have missed, which was especially great when diving into technical stuff that non-technical folks might find tricky.
+**AI was super helpful** in laying out a clear roadmap for our project requirements. It asked questions we might have missed, which was especially great when diving into technical stuff that non-technical folks might find tricky.
 
-**But here's the thing** - we still have to think critically about what the AI suggested:
+**But** we still have to think critically about what the AI suggested:
 
 - Is this feature actually needed, or are we overcomplicating things?
 - Does this fit with how we want to build the system?
@@ -41,15 +41,15 @@ By combining AI's thorough approach with our own common sense, we ended up with 
 
 # Creating user stories
 
-Once we have our high level requirements, we need to create our user stories. Based on the high level requirements created, the AI agent is able to break down into epics and stories for each epic. **However**, once again, this is an iterative approach and in each step, it is important to analyze what the AI agent is suggesting.
+After establishing our high-level requirements, we proceeded with creating user stories. The AI agent effectively helped break down the requirements into epics and individual stories. However, this process required multiple iterations and careful review of the AI's suggestions. Initially, the AI's breakdown of epics wasn't optimally structured, and it overlooked crucial user stories - particularly around information gathering prerequisites before analysis. This oversight likely stemmed from the AI making assumptions about the intended workflow without full context.
 
-When working with AI to create user stories:
+When working with AI to create user stories, it is **important**:
 
-1. Provide clear context:
+1. Provide **detail and clear** context of:
 
-   - Share detailed [`technical design guidelines`](../../docs/technical_design.md)
-   - Include [`definition of done`](../../docs/definition_of_done.md) criteria
-   - Outline any technical constraints or preferences
+   - [`technical design guidelines`](../../docs/technical_design.md)
+   - [`definition of done`](../../docs/definition_of_done.md) criteria
+   - Any technical constraints or preferences
 
 2. Review and refine:
 
@@ -64,4 +64,4 @@ When working with AI to create user stories:
    - Link to relevant technical documentation
    - Add estimates where appropriate
 
-The use of AI agents significantly accelerates the initial story writing and refinement process, while maintaining quality through careful human oversight and validation. This collaborative approach combines AI's ability to generate comprehensive story breakdowns with the development team's expertise in ensuring practical, well-structured user stories.
+The use of AI agents **significantly accelerates** the initial story writing and refinement process, however careful human oversight and validation, and technical knowledge is still required to ensure epics and stories quality.

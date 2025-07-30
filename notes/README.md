@@ -3,7 +3,7 @@
 ## Development Journey & Portfolio
 
 - [`development_journey.md`](../notes/development_journey.md)
-  - Comprehensive showcase of your development process
+  - Comprehensive showcase of my development process
   - Each phase of development from requirements to deployment
   - Technical decisions and implementation highlights
   - Skills and competencies demonstrated
