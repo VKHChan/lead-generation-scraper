@@ -12,8 +12,8 @@
 
 1. Domain Layer:
 
-   - Define DataSource model for different source types (job boards, forums, directories)
    - Define ScrapingJob and ScrapedContent models
+   - Define DataSource model for different source types (job boards, forums, directories)
    - Create interfaces for search and scraping strategies
 
 2. Infrastructure Layer:
