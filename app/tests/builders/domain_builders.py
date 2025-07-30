@@ -64,3 +64,25 @@ class OrganizationBuilder:
             phone="1234567890",
             website="https://example.org"
         )
+
+    @classmethod
+    def build_registered_charity(cls) -> Organization:
+        """Build a registered charity organization."""
+        return cls.build(
+            charitable_registration_number="123456789RR0001",
+            annual_revenue=1000000.0
+        )
+
+    @classmethod
+    def build_volunteer_organization(cls) -> Organization:
+        """Build an organization with significant volunteer base."""
+        return cls.build(
+            staff_count=5,
+            volunteer_count=100,
+            primary_cause="Community Service"
+        )
+
+    @classmethod
+    def build_minimal(cls) -> Organization:
+        """Build an organization with only required fields."""
+        return cls.build()

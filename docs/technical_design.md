@@ -19,7 +19,7 @@ The primary goal of this architecture is to create a system that is:
 
 The project follows a distinct layered architecture, with each layer having a specific responsibility.
 
-- `app/core`: **Domain Layer**. This is the heart of the application. It contains the enterprise-wide business logic and data structures (e.g., `domain.py`, `repository.py`). This layer has **zero dependencies** on any other layer in the application.
+- `app/core`: **Domain Layer**. This is the heart of the application. It contains the enterprise-wide business logic and data structures (e.g., `domain.py`, `storage.py`). This layer has **zero dependencies** on any other layer in the application.
 
 - `app/db`: **Infrastructure/Data Layer**. This layer is responsible for data persistence. It provides concrete implementations of the repository interfaces defined in the core domain layer. It uses SQLAlchemy for ORM and Alembic for database migrations.
 

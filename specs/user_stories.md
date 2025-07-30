@@ -1,144 +1,227 @@
 # User Stories
 
-## Epic 1: Core Domain Implementation
+## Epic 1: Pain Point Discovery
 
-### Story 1.1: Create Organization Domain Model
+### Story 1.1: Research Methodology Framework
 
-**As a** developer  
-**I want** to implement the core organization domain model  
-**So that** we have a consistent data structure for storing organization information
+**As a** business analyst  
+**I want** to have a structured way to capture and categorize automation pain points  
+**So that** we can consistently analyze and compare findings
 
-**Acceptance Criteria:**
+**Development Tasks:**
 
-- [ ] Organization domain model implemented with all required fields from high-level requirements
-- [ ] Unit tests for domain model validation and behavior
-- [ ] Implementation follows Single Responsibility Principle
-- [ ] Adheres to project's Python style guide
+1. Domain Layer:
 
-**Technical Notes:**
+   - Define PainPoint domain model in `app/core/domain.py`
+   - Define Category and Impact models
+   - Define research methodology interfaces
 
-- Implement in `app/core/domain.py`
-- Include data validation rules
-- Follow DDD principles from technical design
+2. Infrastructure Layer:
 
-### Story 1.2: Implement Storage Interface
+   - Implement structured data storage
+   - Create categorization service
+   - Build impact scoring system
 
-**As a** developer  
-**I want** to define the storage interface for organizations  
-**So that** we can implement different storage providers while maintaining consistency
+3. API Layer:
 
-**Acceptance Criteria:**
+   - Create pain point entry endpoints
+   - Add categorization endpoints
+   - Implement impact assessment endpoints
 
-- [ ] Storage interface defined with CRUD operations
-- [ ] CSV storage provider implemented
-- [ ] Unit tests for storage operations
-- [ ] Implementation follows Repository Pattern
-- [ ] Deduplication logic implemented
+4. Testing:
+   - Unit tests for categorization logic
+   - Integration tests for scoring system
+   - Validation tests for methodology
 
-**Technical Notes:**
-
-- Define interface in `app/core/repository.py`
-- Implement CSV provider in `app/infrastructure`
-- Follow dependency injection pattern
-
-## Epic 2: Data Collection Infrastructure
-
-### Story 2.1: Basic Scraper Framework
-
-**As a** developer  
-**I want** to implement the base scraper framework  
-**So that** we can add source-specific scrapers consistently
-
-**Acceptance Criteria:**
-
-- [ ] Base scraper interface defined
-- [ ] Common scraping utilities implemented
-- [ ] Rate limiting implementation
-- [ ] robots.txt compliance
-- [ ] Error handling and logging
-- [ ] Unit tests for framework components
-
-**Technical Notes:**
-
-- Implement in `app/core/scraping`
-- Follow abstraction principles from technical design
-- Include retry mechanisms
-
-### Story 2.2: CRA Charities Listing Scraper
+### Story 1.2: Job Posting Analysis System
 
 **As a** researcher  
-**I want** to scrape the CRA Charities Listing  
-**So that** we can gather basic information about registered charities
+**I want** to analyze job postings for automation opportunities  
+**So that** we can identify common operational pain points
 
-**Acceptance Criteria:**
+**Development Tasks:**
 
-- [ ] Scraper implementation for CRA website
-- [ ] Extracts all required organization fields
-- [ ] Handles pagination
-- [ ] Respects rate limits
-- [ ] Integration tests with sample data
-- [ ] Data validated against organization model
+1. Domain Layer:
 
-**Technical Notes:**
+   - Define JobPosting model
+   - Create text analysis interfaces
+   - Define role-pain point mapping rules
 
-- Implement as concrete scraper class
-- Include error handling for site-specific issues
-- Document any site-specific limitations
+2. Infrastructure Layer:
 
-## Epic 3: API Implementation
+   - Implement text analysis service
+   - Create role mapping service
+   - Build pattern recognition system
 
-### Story 3.1: Basic API Setup
+3. API Layer:
 
-**As a** developer  
-**I want** to set up the basic API infrastructure  
-**So that** we can start exposing functionality via REST endpoints
+   - Add job posting analysis endpoints
+   - Create pattern reporting endpoints
+   - Implement trend analysis endpoints
 
-**Acceptance Criteria:**
+4. Testing:
+   - Text analysis accuracy tests
+   - Pattern recognition tests
+   - Role mapping validation
 
-- [ ] FastAPI application setup
-- [ ] API key authentication implemented
-- [ ] Basic error handling
-- [ ] Health check endpoint
-- [ ] OpenAPI documentation
-- [ ] Integration tests for base setup
+## Epic 2: Organization Matching
 
-**Technical Notes:**
+### Story 2.1: Organization Profiling System
 
-- Follow API layer guidelines from technical design
-- Implement in `app/api`
-- Include proper dependency injection setup
+**As a** lead researcher  
+**I want** to create detailed technology context profiles for organizations  
+**So that** we can understand their automation potential
 
-### Story 3.2: Scraping Job Endpoints
+**Development Tasks:**
 
-**As a** system administrator  
-**I want** to control scraping jobs via API  
-**So that** I can manage data collection programmatically
+1. Domain Layer:
 
-**Acceptance Criteria:**
+   - Define Organization and TechContext models
+   - Create profiling interfaces
+   - Define technology assessment rules
 
-- [ ] Implement POST /api/v1/scrape endpoint
-- [ ] Implement GET /api/v1/scrape/status/{jobId} endpoint
-- [ ] Job status tracking
-- [ ] Error handling and validation
-- [ ] Integration tests for job management
-- [ ] API documentation updated
+2. Infrastructure Layer:
 
-**Technical Notes:**
+   - Implement profile storage system
+   - Create tech stack analysis service
+   - Build context tracking system
 
-- Follow API conventions from technical design
-- Implement proper status tracking
-- Include job cancellation handling
+3. API Layer:
 
-## Definition of Done Checklist Template
+   - Create profile management endpoints
+   - Add tech context endpoints
+   - Implement assessment endpoints
 
-Each story must complete this checklist:
+4. Testing:
+   - Profile validation tests
+   - Tech context analysis tests
+   - Assessment accuracy tests
 
-- [ ] Code Complete
-- [ ] Acceptance Criteria Met
-- [ ] Adheres to Technical Design
-- [ ] Unit Tests Passed
-- [ ] Integration Tests Passed (if applicable)
-- [ ] Code Quality and Formatting
-- [ ] Database Migration Created (if applicable)
-- [ ] API Documentation Updated (if applicable)
-- [ ] Application Runs Successfully
+### Story 2.2: Pain Point Matching Engine
+
+**As a** business analyst  
+**I want** to match organizations with relevant pain points  
+**So that** we can identify high-value automation opportunities
+
+**Development Tasks:**
+
+1. Domain Layer:
+
+   - Define matching rules and scoring models
+   - Create priority calculation interfaces
+   - Define confidence scoring rules
+
+2. Infrastructure Layer:
+
+   - Implement matching algorithm
+   - Create scoring engine
+   - Build recommendation system
+
+3. API Layer:
+
+   - Add matching endpoints
+   - Create scoring endpoints
+   - Implement recommendation endpoints
+
+4. Testing:
+   - Matching accuracy tests
+   - Scoring validation tests
+   - Recommendation quality tests
+
+## Epic 3: Outreach Management
+
+### Story 3.1: Contact Management System
+
+**As a** lead researcher  
+**I want** to manage organization contacts and roles  
+**So that** we can effectively target our outreach
+
+**Development Tasks:**
+
+1. Domain Layer:
+
+   - Define Contact and Role models
+   - Create contact management interfaces
+   - Define role categorization rules
+
+2. Infrastructure Layer:
+
+   - Implement secure contact storage
+   - Create role management system
+   - Build contact validation service
+
+3. API Layer:
+
+   - Create contact management endpoints
+   - Add role management endpoints
+   - Implement contact search endpoints
+
+4. Testing:
+   - Contact validation tests
+   - Role management tests
+   - Security compliance tests
+
+### Story 3.2: Engagement Tracking System
+
+**As a** business analyst  
+**I want** to track and measure engagement with organizations  
+**So that** we can optimize our outreach efforts
+
+**Development Tasks:**
+
+1. Domain Layer:
+
+   - Define Interaction and Engagement models
+   - Create tracking interfaces
+   - Define ROI calculation rules
+
+2. Infrastructure Layer:
+
+   - Implement interaction history system
+   - Create engagement scoring service
+   - Build ROI calculation engine
+
+3. API Layer:
+
+   - Add interaction tracking endpoints
+   - Create engagement analysis endpoints
+   - Implement ROI reporting endpoints
+
+4. Testing:
+   - Tracking accuracy tests
+   - Engagement scoring tests
+   - ROI calculation validation
+
+## Definition of Done Checklist
+
+Each story must complete this checklist following the development workflow:
+
+1. Domain Implementation:
+
+   - [ ] Domain models defined in `app/core/domain.py`
+   - [ ] Core interfaces defined in `app/core/storage.py` or `app/core/model.py`
+   - [ ] Business rules implemented and validated
+
+2. Infrastructure Implementation:
+
+   - [ ] Storage implementation complete
+   - [ ] Services implemented in appropriate infrastructure modules
+   - [ ] External integrations tested
+
+3. API Implementation:
+
+   - [ ] REST endpoints implemented
+   - [ ] Input validation complete
+   - [ ] Error handling implemented
+
+4. Testing:
+
+   - [ ] Unit tests for domain logic
+   - [ ] Integration tests for infrastructure
+   - [ ] API endpoint tests
+   - [ ] Performance requirements met
+
+5. Documentation:
+   - [ ] API documentation updated
+   - [ ] Implementation details documented
+   - [ ] Usage examples provided
