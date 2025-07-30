@@ -2,7 +2,42 @@
 
 ## Epic 1: Pain Point Discovery
 
-### Story 1.1: Research Methodology Framework
+### Story 1.1: Data Collection System
+
+**As a** researcher  
+**I want** to automatically collect data from various online sources about non-profit operations  
+**So that** we can identify potential automation opportunities and pain points
+
+**Development Tasks:**
+
+1. Domain Layer:
+
+   - Define DataSource model for different source types (job boards, forums, directories)
+   - Define ScrapingJob and ScrapedContent models
+   - Create interfaces for search and scraping strategies
+
+2. Infrastructure Layer:
+
+   - Implement web scraping service with rate limiting and error handling
+   - Create Google Search API integration
+   - Build proxy rotation and request throttling system
+   - Implement raw data storage system
+   - Create data validation and cleaning service
+
+3. API Layer:
+
+   - Create scraping job management endpoints
+   - Add source configuration endpoints
+   - Implement scraping status monitoring endpoints
+   - Create raw data access endpoints
+
+4. Testing:
+   - Scraper reliability tests
+   - Rate limiting and throttling tests
+   - Data validation tests
+   - Integration tests with various sources
+
+### Story 1.2: Research Methodology Framework
 
 **As a** business analyst  
 **I want** to have a structured way to capture and categorize automation pain points  
@@ -33,7 +68,7 @@
    - Integration tests for scoring system
    - Validation tests for methodology
 
-### Story 1.2: Job Posting Analysis System
+### Story 1.3: Job Posting Analysis System
 
 **As a** researcher  
 **I want** to analyze job postings for automation opportunities  
@@ -66,7 +101,42 @@
 
 ## Epic 2: Organization Matching
 
-### Story 2.1: Organization Profiling System
+### Story 2.1: Organization Data Collection System
+
+**As a** researcher  
+**I want** to automatically collect data about Canadian non-profit organizations from various directories and networks  
+**So that** we can build a comprehensive database of potential organizations
+
+**Development Tasks:**
+
+1. Domain Layer:
+
+   - Define DirectorySource model for different directories (CRA, Imagine Canada, etc.)
+   - Define OrganizationRawData and CollectionJob models
+   - Create interfaces for directory-specific collection strategies
+
+2. Infrastructure Layer:
+
+   - Implement directory scraping services with rate limiting
+   - Create LinkedIn organization data collector
+   - Build event directory integration system
+   - Implement organization data storage system
+   - Create data deduplication and merging service
+
+3. API Layer:
+
+   - Create collection job management endpoints
+   - Add directory configuration endpoints
+   - Implement collection status monitoring
+   - Create raw organization data access endpoints
+
+4. Testing:
+   - Directory scraper reliability tests
+   - Data deduplication accuracy tests
+   - Collection completeness validation
+   - Integration tests with various sources
+
+### Story 2.2: Organization Profiling System
 
 **As a** lead researcher  
 **I want** to create detailed technology context profiles for organizations  
@@ -97,7 +167,7 @@
    - Tech context analysis tests
    - Assessment accuracy tests
 
-### Story 2.2: Pain Point Matching Engine
+### Story 2.3: Pain Point Matching Engine
 
 **As a** business analyst  
 **I want** to match organizations with relevant pain points  
