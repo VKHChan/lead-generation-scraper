@@ -1,4 +1,10 @@
-from injector import Binder, Module, inject, singleton
+import asyncio
+import logging
+import time
+from datetime import datetime
+
+from ddgs import DDGS
+from injector import Binder, Module, inject
 
 from app.configuration.settings import Settings
 from app.core.web_search import SearchEngine, SearchResult
@@ -42,29 +48,108 @@ class GoogleSearch(SearchEngine):
 
 
 class DuckDuckGoSearch(SearchEngine):
-    """DuckDuckGo Search implementation - completely free!"""
+    """DuckDuckGo Search implementation using duckduckgo-search library"""
 
     @inject
     def __init__(self, settings: Settings):
         self._settings = settings
-        self._search_engine_url = settings.web_search_settings.search_engine_url
         self._search_limit = settings.web_search_settings.search_limit
         self._search_timeout = settings.web_search_settings.search_timeout
         self._search_retries = settings.web_search_settings.search_retries
 
-        if not self._search_engine_url:
-            raise ValueError("DuckDuckGo Search URL not configured")
+        # Create the DDGS client
+        self._ddgs = DDGS(timeout=self._search_timeout)
 
     async def search(self, query: str) -> list[SearchResult] | None:
+        """Search DuckDuckGo for the given query"""
         try:
-            url = self._search_engine_url
-            params = {
-                'q': query,
-                'format': 'json',
-                'no_html': 1,
-                'no_redirect': 1
-            }
-            # Implementation here
-            return None
+            logging.info(f"Starting DuckDuckGo search for query: {query}")
+
+            # Run the search in an executor to avoid blocking
+            loop = asyncio.get_event_loop()
+            results = await loop.run_in_executor(
+                None,
+                lambda: self._search_with_retries(query)
+            )
+
+            if not results:
+                logging.info("No results found")
+                return None
+
+            # Convert to SearchResult objects
+            search_results = []
+            for result in results:
+                search_results.append(SearchResult(
+                    title=result.get('title', ''),
+                    url=result.get('href', ''),
+                    description=result.get('body', ''),
+                    date=datetime.now(),
+                    source='DuckDuckGo',
+                    snippet=result.get('body', '')
+                ))
+
+            logging.info(
+                f"Search successful, found {len(search_results)} results")
+            return search_results[:self._search_limit]
+
         except Exception as e:
-            raise
+            logging.error(f"Error in DuckDuckGo search: {str(e)}")
+            return None
+
+    def _search_with_retries(self, query: str) -> list[dict]:
+        """Execute search with retries"""
+        retry_count = 0
+        max_retries = self._search_retries
+        all_results = []
+
+        while retry_count <= max_retries:
+            try:
+                # Use the text search method from duckduckgo_search
+                results = list(self._ddgs.text(
+                    query,
+                    region='wt-wt',  # Worldwide results
+                    safesearch='moderate',
+                    timelimit=None,  # No time limit
+                    # Get more than we need in case some are filtered
+                    max_results=self._search_limit * 2
+                ))
+
+                # Filter out ads and sponsored results
+                filtered_results = [
+                    result for result in results
+                    if not self._is_ad_or_sponsored(result.get('href', ''))
+                ]
+
+                logging.debug(f"Raw search results: {filtered_results}")
+                return filtered_results
+
+            except Exception as e:
+                retry_count += 1
+                if retry_count > max_retries:
+                    logging.error(
+                        f"DuckDuckGo search failed after {max_retries} retries: {str(e)}")
+                    return all_results
+
+                logging.warning(
+                    f"Search attempt {retry_count} failed: {str(e)}. Retrying...")
+                time.sleep(2 ** retry_count)  # Exponential backoff
+
+        return all_results
+
+    def _is_ad_or_sponsored(self, url: str) -> bool:
+        """Check if a URL is likely an ad or sponsored result"""
+        if not url:
+            return False
+
+        # Common ad URL patterns
+        ad_patterns = [
+            'aclick?',
+            '/aclk?',
+            'adurl=',
+            '/ads/',
+            'doubleclick',
+            'googleadservices',
+            'pagead'
+        ]
+
+        return any(pattern in url.lower() for pattern in ad_patterns)

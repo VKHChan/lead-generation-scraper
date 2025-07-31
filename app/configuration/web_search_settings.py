@@ -11,9 +11,9 @@ class WebSearchSettings(ConfigurableSettings):
         self._search_engine_url = values.get(
             "SEARCH_ENGINE_URL") or "https://api.duckduckgo.com/"
         self._api_key = values.get("API_KEY") or None
-        self._search_limit = int(values.get("SEARCH_LIMIT")) or 10
-        self._search_timeout = int(values.get("SEARCH_TIMEOUT")) or 30
-        self._search_retries = int(values.get("SEARCH_RETRIES")) or 3
+        self._search_limit = int(values.get("SEARCH_LIMIT") or 10)
+        self._search_timeout = int(values.get("SEARCH_TIMEOUT") or 30)
+        self._search_retries = int(values.get("SEARCH_RETRIES") or 3)
 
     @property
     def search_engine(self) -> str:

@@ -4,6 +4,8 @@ pydantic
 python-dotenv
 requests
 injector
+aiohttp
+ddgs
 
 # Testing dependencies
 pytest
