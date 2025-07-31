@@ -2,7 +2,8 @@ import os
 
 import dotenv
 from dotenv import dotenv_values
-from web_search_settings import WebSearchSettings
+
+from .web_search_settings import WebSearchSettings
 
 dotenv.load_dotenv()
 

@@ -1,8 +1,9 @@
 from typing import Type
 
-from configuration.settings import Settings, get_settings
-from infrastructure.web_search_services import WebSearchModule
 from injector import Binder, Injector, Module, T, singleton
+
+from app.configuration.settings import Settings, get_settings
+from app.infrastructure.web_search_services import WebSearchModule
 
 
 class ApplicationModule(Module):
@@ -46,7 +47,7 @@ class ServiceCollection:
         injector = Injector(
             modules=[
                 ApplicationModule(),
-                WebSearchModule(settings),
+                WebSearchModule(settings=settings),
             ],
         )
         return ServiceProvider._initialize(injector)

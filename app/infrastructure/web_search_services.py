@@ -1,19 +1,22 @@
-from configuration.settings import Settings
-from core.web_search import SearchEngine, SearchResult
 from injector import Binder, Module, inject, singleton
+
+from app.configuration.settings import Settings
+from app.core.web_search import SearchEngine, SearchResult
 
 
 class WebSearchModule(Module):
-    @inject
-    def configure(self, binder: Binder, settings: Settings) -> None:
+    def __init__(self, settings: Settings):
+        self.settings = settings
+
+    def configure(self, binder: Binder) -> None:
         # Get the configured search engine from settings
-        search_engine = settings.web_search_settings.search_engine.lower()
+        search_engine = self.settings.web_search_settings.search_engine.lower()
 
         # Bind the appropriate implementation based on settings
         if search_engine == "google":
-            binder.bind(SearchEngine, to=GoogleSearch, scope=singleton)
+            binder.bind(SearchEngine, to=GoogleSearch)
         else:  # default to DuckDuckGo
-            binder.bind(SearchEngine, to=DuckDuckGoSearch, scope=singleton)
+            binder.bind(SearchEngine, to=DuckDuckGoSearch)
 
 
 class GoogleSearch(SearchEngine):
@@ -28,12 +31,12 @@ class GoogleSearch(SearchEngine):
         if not self._api_key:
             raise ValueError("Google Search API key not configured")
 
-    async def search(self, query: str) -> list[SearchResult]:
+    async def search(self, query: str) -> list[SearchResult] | None:
         try:
             if not self._api_key:
                 raise ValueError("Google Search API key not configured")
             # Implementation using self._api_key
-            pass
+            return None
         except Exception as e:
             raise
 
@@ -52,7 +55,7 @@ class DuckDuckGoSearch(SearchEngine):
         if not self._search_engine_url:
             raise ValueError("DuckDuckGo Search URL not configured")
 
-    async def search(self, query: str) -> list[SearchResult]:
+    async def search(self, query: str) -> list[SearchResult] | None:
         try:
             url = self._search_engine_url
             params = {
@@ -62,6 +65,6 @@ class DuckDuckGoSearch(SearchEngine):
                 'no_redirect': 1
             }
             # Implementation here
-            return []
+            return None
         except Exception as e:
             raise

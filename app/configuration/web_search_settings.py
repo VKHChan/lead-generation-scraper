@@ -1,4 +1,4 @@
-from configurable_settings import ConfigurableSettings
+from .configurable_settings import ConfigurableSettings
 
 
 class WebSearchSettings(ConfigurableSettings):

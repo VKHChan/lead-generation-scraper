@@ -1,4 +1,3 @@
-# app/tests/builders/web_search_builder.py
 from datetime import datetime
 
 from app.core.web_search import SearchResult
