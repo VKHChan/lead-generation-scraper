@@ -62,6 +62,6 @@ class DuckDuckGoSearch(SearchEngine):
                 'no_redirect': 1
             }
             # Implementation here
-            pass
+            return []
         except Exception as e:
             raise
