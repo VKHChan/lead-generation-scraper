@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Simple script to test the DuckDuckGo search functionality.
+Simple script to test the search functionality using ServiceCollection.
 Run this script directly to perform a search and see the results.
 """
 import asyncio
@@ -8,8 +8,8 @@ import logging
 import os
 import sys
 
-from app.configuration.settings import get_settings
-from app.infrastructure.web_search_services import DuckDuckGoSearch
+from app.core.web_search import SearchEngine
+from app.infrastructure.service_collection import ServiceCollection
 
 # Configure logging to show all messages
 logging.basicConfig(
@@ -24,11 +24,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 async def test_search():
     """Run a test search and print the results"""
-    # Create Settings object using the singleton getter
-    settings = get_settings()
+    # Initialize services
+    service_provider = ServiceCollection.add_services()
 
-    # Create search engine
-    search_engine = DuckDuckGoSearch(settings)
+    # Get the configured search engine from the service provider
+    search_engine = service_provider.get(SearchEngine)
 
     # Get search query from command line or use default
     query = sys.argv[1] if len(sys.argv) > 1 else "python programming"

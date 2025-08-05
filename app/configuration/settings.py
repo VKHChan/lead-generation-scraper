@@ -3,6 +3,7 @@ import os
 import dotenv
 from dotenv import dotenv_values
 
+from .local_settings import LocalSettings
 from .web_search_settings import WebSearchSettings
 
 dotenv.load_dotenv()
@@ -29,7 +30,9 @@ class Settings:
 
         self._settings = self.__get_dotenv_settings(dotenv_path=dotenv_path)
         self._settings.update(os.environ)
+        self._app_host = self._settings.get("APP_HOST") or "local"
         self._web_search_settings = WebSearchSettings(self._settings)
+        self._local_settings = LocalSettings(self._settings)
 
     def __get_dotenv_settings(self, dotenv_path: str = "") -> dict[str, str | None]:
         config = dotenv_values()
@@ -44,8 +47,16 @@ class Settings:
         return (value or "").lower() == "true"
 
     @property
+    def local_settings(self) -> LocalSettings:
+        return self._local_settings
+
+    @property
     def web_search_settings(self) -> WebSearchSettings:
         return self._web_search_settings
+
+    @property
+    def app_host(self) -> str:
+        return self._app_host
 
 
 def get_settings(

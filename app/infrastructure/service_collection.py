@@ -3,6 +3,8 @@ from typing import Type
 from injector import Binder, Injector, Module, T, singleton
 
 from app.configuration.settings import Settings, get_settings
+from app.core.storage import Storage
+from app.infrastructure.local_services import LocalModule
 from app.infrastructure.web_search_services import WebSearchModule
 
 
@@ -44,10 +46,13 @@ class ServiceCollection:
     @staticmethod
     def add_services() -> ServiceProvider:
         settings = get_settings()
-        injector = Injector(
-            modules=[
-                ApplicationModule(),
-                WebSearchModule(settings=settings),
-            ],
-        )
+        modules = [
+            ApplicationModule(),
+            WebSearchModule(
+                search_engine=settings.web_search_settings.search_engine),
+        ]
+        if settings.local_settings.is_configured:
+            modules.append(LocalModule(app_host=settings.app_host))
+
+        injector = Injector(modules=modules)
         return ServiceProvider._initialize(injector)
