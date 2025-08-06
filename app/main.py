@@ -23,7 +23,7 @@ logging.basicConfig(
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-async def test_search():
+async def main():
     """Run a test search and print the results"""
     # Initialize services
     service_provider = ServiceCollection.add_services()
@@ -56,4 +56,4 @@ async def test_search():
 
 
 if __name__ == "__main__":
-    asyncio.run(test_search())
+    asyncio.run(main())
