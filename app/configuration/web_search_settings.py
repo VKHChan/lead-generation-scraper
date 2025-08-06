@@ -7,6 +7,8 @@ class WebSearchSettings(ConfigurableSettings):
     """
 
     def __init__(self, values: dict[str, str | None]):
+        self._search_folder_name = values.get(
+            "SEARCH_FOLDER_NAME") or "search"
         self._search_engine = values.get("SEARCH_ENGINE") or "duckduckgo"
         self._search_engine_url = values.get(
             "SEARCH_ENGINE_URL") or "https://api.duckduckgo.com/"
@@ -14,6 +16,10 @@ class WebSearchSettings(ConfigurableSettings):
         self._search_limit = int(values.get("SEARCH_LIMIT") or 10)
         self._search_timeout = int(values.get("SEARCH_TIMEOUT") or 30)
         self._search_retries = int(values.get("SEARCH_RETRIES") or 3)
+
+    @property
+    def search_folder_name(self) -> str:
+        return self._search_folder_name
 
     @property
     def search_engine(self) -> str:

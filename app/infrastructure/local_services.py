@@ -1,9 +1,11 @@
+import json
 from pathlib import Path
 
 from injector import Binder, Module, inject
 
 from app.configuration.settings import Settings
 from app.core.storage import Storage
+from app.core.utils import json_serial
 
 from .app_host import AppHost
 
@@ -43,14 +45,20 @@ class LocalStorage(Storage):
 
         return file_path.read_bytes()
 
-    def write(self, file_name: str, data: bytes, container: str | None = None) -> None:
+    def write(self, file_name: str, data: bytes | dict, container: str | None = None) -> None:
         """
         Writes the file to the local storage.
         """
 
         file_path = self.storage_path / file_name
         file_path.parent.mkdir(parents=True, exist_ok=True)
-        file_path.write_bytes(data)
+        if isinstance(data, bytes):
+            file_path.write_bytes(data)
+        elif isinstance(data, dict):
+            file_path.write_text(json.dumps(
+                data, default=json_serial, indent=4))
+        else:
+            raise ValueError(f"Invalid data type: {type(data)}")
 
     def list_all_files(self, path: str) -> list[str]:
         """

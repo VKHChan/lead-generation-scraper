@@ -5,6 +5,7 @@ from injector import Binder, Injector, Module, T, singleton
 from app.configuration.settings import Settings, get_settings
 from app.core.storage import Storage
 from app.infrastructure.local_services import LocalModule
+from app.infrastructure.web_scrape_services import WebScraperModule
 from app.infrastructure.web_search_services import WebSearchModule
 
 
@@ -50,6 +51,7 @@ class ServiceCollection:
             ApplicationModule(),
             WebSearchModule(
                 search_engine=settings.web_search_settings.search_engine),
+            WebScraperModule(),
         ]
         if settings.local_settings.is_configured:
             modules.append(LocalModule(app_host=settings.app_host))

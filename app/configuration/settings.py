@@ -4,6 +4,7 @@ import dotenv
 from dotenv import dotenv_values
 
 from .local_settings import LocalSettings
+from .web_scrape_settings import WebScrapeSettings
 from .web_search_settings import WebSearchSettings
 
 dotenv.load_dotenv()
@@ -32,6 +33,7 @@ class Settings:
         self._settings.update(os.environ)
         self._app_host = self._settings.get("APP_HOST") or "local"
         self._web_search_settings = WebSearchSettings(self._settings)
+        self._web_scrape_settings = WebScrapeSettings(self._settings)
         self._local_settings = LocalSettings(self._settings)
 
     def __get_dotenv_settings(self, dotenv_path: str = "") -> dict[str, str | None]:
@@ -53,6 +55,10 @@ class Settings:
     @property
     def web_search_settings(self) -> WebSearchSettings:
         return self._web_search_settings
+
+    @property
+    def web_scrape_settings(self) -> WebScrapeSettings:
+        return self._web_scrape_settings
 
     @property
     def app_host(self) -> str:

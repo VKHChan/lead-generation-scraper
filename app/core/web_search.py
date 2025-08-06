@@ -4,8 +4,7 @@ Models for web search using search engine API.
 from datetime import datetime
 from enum import Enum
 
-from pydantic import Field
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel, Field
 
 
 class SearchProvider(Enum):
@@ -16,8 +15,7 @@ class SearchProvider(Enum):
     DUCKDUCKGO = "duckduckgo"
 
 
-@dataclass
-class SearchResult:
+class SearchResult(BaseModel):
     """
     Represents a search result from a web search engine.
     """
@@ -25,7 +23,8 @@ class SearchResult:
     url: str = Field(description="The URL of the search result.")
     description: str = Field(
         description="The description of the search result.")
-    date: datetime = Field(description="The date of the search result.")
+    created_at: datetime = Field(
+        description="The date and time the job was created")
     source: str = Field(description="The source of the search result.")
     snippet: str | None = Field(
         description="The snippet of the search result.")

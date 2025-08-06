@@ -8,6 +8,7 @@ import logging
 import os
 import sys
 
+from app.core.web_scrape import WebScraper
 from app.core.web_search import SearchEngine
 from app.infrastructure.service_collection import ServiceCollection
 
@@ -29,6 +30,7 @@ async def test_search():
 
     # Get the configured search engine from the service provider
     search_engine = service_provider.get(SearchEngine)
+    web_scraper = service_provider.get(WebScraper)
 
     # Get search query from command line or use default
     query = sys.argv[1] if len(sys.argv) > 1 else "python programming"
@@ -47,6 +49,10 @@ async def test_search():
             print(f"Description: {result.description[:100]}...")
     else:
         print("No results found or an error occurred.")
+
+    scraping_result = await web_scraper.scrape_multiple(
+        [result.url for result in results])
+    print(scraping_result)
 
 
 if __name__ == "__main__":
