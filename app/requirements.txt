@@ -7,6 +7,9 @@ injector
 aiohttp
 ddgs
 playwright
+langchain
+langchain-community
+langchain_anthropic
 
 # Testing dependencies
 pytest

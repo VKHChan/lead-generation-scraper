@@ -4,6 +4,7 @@ from injector import Binder, Injector, Module, T, singleton
 
 from app.configuration.settings import Settings, get_settings
 from app.core.storage import Storage
+from app.infrastructure.anthropic_services import AnthropicModule
 from app.infrastructure.local_services import LocalModule
 from app.infrastructure.web_scrape_services import WebScraperModule
 from app.infrastructure.web_search_services import WebSearchModule
@@ -55,6 +56,9 @@ class ServiceCollection:
         ]
         if settings.local_settings.is_configured:
             modules.append(LocalModule(app_host=settings.app_host))
+        if settings.anthropic.is_configured:
+            modules.append(AnthropicModule(
+                llm_model_host=settings.llm_settings.chat_model_settings.host))
 
         injector = Injector(modules=modules)
         return ServiceProvider._initialize(injector)
