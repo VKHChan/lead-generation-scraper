@@ -1,0 +1,2 @@
+class AppHost:
+    LOCAL = "local"

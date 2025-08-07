@@ -1,10 +1,15 @@
-fastapi==0.104.1
-uvicorn==0.24.0
-pydantic==2.4.2
-python-dotenv==1.0.0
-requests==2.31.0
+fastapi
+uvicorn
+pydantic
+python-dotenv
+requests
+injector
+aiohttp
+ddgs
+playwright
 
 # Testing dependencies
-pytest==7.4.3
-pytest-cov==4.1.0  # For coverage reporting
-pytest-asyncio==0.21.1  # For async test support
+pytest
+pytest-cov
+pytest-asyncio
+Faker

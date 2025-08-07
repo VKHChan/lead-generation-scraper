@@ -2,71 +2,164 @@
 
 ## Epic 1: Pain Point Discovery
 
-### Story 1.1: Data Collection System
+### Story 1.1: Data Collection System ✅
 
 **As a** researcher  
 **I want** to automatically collect data from various online sources about non-profit operations  
 **So that** we can identify potential automation opportunities and pain points
 
-**Development Tasks:**
+**Implemented Features:**
 
-1. Domain Layer:
+1. Domain Layer ✅
 
-   - Define DataSource model for different source types (job boards, forums, directories)
-   - Define ScrapingJob and ScrapedContent models
-   - Create interfaces for search and scraping strategies
+   - Defined SearchResult model for structured search data
+   - Defined ScrapePageResult model for scraped content
+   - Created interfaces for search (SearchEngine) and scraping (WebScraper) strategies
+   - Implemented standardized file naming and data organization
 
-2. Infrastructure Layer:
+2. Infrastructure Layer ✅
 
-   - Implement web scraping service with rate limiting and error handling
-   - Create Google Search API integration
-   - Build proxy rotation and request throttling system
-   - Implement raw data storage system
-   - Create data validation and cleaning service
+   - Implemented DuckDuckGo search integration with configurable settings
+   - Created web scraping service with error handling and retry logic
+   - Built configurable rate limiting and timeout system
+   - Implemented hierarchical storage system (local/S3 compatible)
+   - Added data serialization with proper JSON formatting
 
-3. API Layer:
+3. Command Line Interface ✅
 
-   - Create scraping job management endpoints
-   - Add source configuration endpoints
-   - Implement scraping status monitoring endpoints
-   - Create raw data access endpoints
+   - Created simple CLI for search and scrape operations
+   - Implemented configurable search parameters
+   - Added progress logging and result display
+   - Stored results in organized directory structure (YYYY/MM/DD)
 
-4. Testing:
-   - Scraper reliability tests
-   - Rate limiting and throttling tests
-   - Data validation tests
-   - Integration tests with various sources
+4. Testing & Configuration ✅
+   - Added integration tests for search workflow
+   - Implemented configurable settings via .env files
+   - Added logging for debugging and monitoring
+   - Created sample configuration files
 
-### Story 1.2: Research Methodology Framework
+### Story 1.2: LLM-Based Content Analysis
 
 **As a** business analyst  
-**I want** to have a structured way to capture and categorize automation pain points  
-**So that** we can consistently analyze and compare findings
+**I want** to use LLM to analyze each scraped article and extract structured insights  
+**So that** we can build a database of pain points, solutions, and market opportunities
 
 **Development Tasks:**
 
 1. Domain Layer:
 
-   - Define PainPoint domain model in `app/core/domain.py`
-   - Define Category and Impact models
-   - Define research methodology interfaces
+   - Define content analysis model:
+
+     ```python
+     class ContentAnalysis:
+         """Analysis results for a single article"""
+         url: str
+         title: str
+         analysis_date: datetime
+
+         pain_points: list[PainPoint]
+         solutions: list[Solution]
+         service_providers: list[ServiceProvider]
+
+         class PainPoint:
+             description: str
+             category: str
+             impact: str
+             source_quote: str  # Original text snippet
+             context: str       # Surrounding context
+
+         class Solution:
+             name: str
+             description: str
+             target_pain_points: list[str]  # References to pain point descriptions
+             features: list[str]
+             benefits: list[str]
+             pricing_info: str | None
+
+         class ServiceProvider:
+             name: str
+             website: str | None
+             described_solutions: list[str]  # References to solution names
+             value_proposition: str
+     ```
 
 2. Infrastructure Layer:
 
-   - Implement structured data storage
-   - Create categorization service
-   - Build impact scoring system
+   - Implement LLM analysis pipeline:
+     - Content extraction service (clean HTML/text)
+     - LLM prompt engineering for entity extraction
+     - JSON response parsing and validation
+   - Create storage structure:
+     ```
+     storage/
+       └── YYYY/MM/DD/
+           └── content/
+               └── {url_hash}/
+                   ├── raw.json        # Original scraped content
+                   └── analysis.json   # LLM analysis results
+     ```
 
-3. API Layer:
+3. LLM Integration:
 
-   - Create pain point entry endpoints
-   - Add categorization endpoints
-   - Implement impact assessment endpoints
+   - Design extraction prompt:
 
-4. Testing:
-   - Unit tests for categorization logic
-   - Integration tests for scoring system
-   - Validation tests for methodology
+     ```
+     "Analyze this article and extract insights in JSON format:
+     {
+       'pain_points': [
+         {
+           'description': 'Clear statement of the problem',
+           'category': 'Categorize the type of pain point',
+           'impact': 'Describe the impact on operations',
+           'source_quote': 'Exact quote from text',
+           'context': 'Surrounding context of the quote'
+         }
+       ],
+       'solutions': [...],
+       'service_providers': [...]
+     }
+
+     Focus on:
+     1. Specific pain points with clear impact
+     2. Concrete solutions, not vague suggestions
+     3. Actual service providers mentioned
+
+     Use exact quotes where possible."
+     ```
+
+   - Implement validation:
+     - JSON schema validation
+     - Required fields checking
+     - Quote verification
+   - Add error handling:
+     - LLM response parsing
+     - Malformed content handling
+     - Rate limiting management
+
+4. Analysis Scripts:
+
+   - Create aggregation tools:
+     ```python
+     async def aggregate_analyses(start_date: date, end_date: date):
+         """Aggregate analyses across date range"""
+         return {
+             'pain_points': defaultdict(list),  # category -> pain points
+             'solutions': defaultdict(list),     # provider -> solutions
+             'providers': defaultdict(list)      # category -> providers
+         }
+     ```
+   - Build search tools:
+     ```python
+     async def search_analyses(query: str,
+                             content_type: Literal['pain_points', 'solutions', 'providers']):
+         """Search through analyses by content type and query"""
+     ```
+
+5. Testing:
+   - Single article analysis tests
+   - LLM extraction accuracy tests
+   - Storage integrity tests
+   - Aggregation correctness tests
 
 ### Story 1.3: Job Posting Analysis System
 
