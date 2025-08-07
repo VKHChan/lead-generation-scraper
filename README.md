@@ -1,16 +1,35 @@
-# Lead Generation Scraper
+# Market Research and Lead Generation Tool
 
-A Python-based web scraping application designed to collect and analyze automation needs data from Canadian non-profit organizations. The system provides a RESTful API for data access and automated weekly data collection.
+A Python-based tool that combines web search, content scraping, and AI analysis to:
+
+1. Research market opportunities and pain points
+2. Analyze existing solutions and service providers
+3. Generate qualified leads based on market fit
 
 ## Features
 
-- Automated web scraping of Canadian non-profit organizations
-- Data collection from multiple sources (CRA, CharityVillage, etc.)
-- RESTful API for data access
-- Configurable storage backend (local CSV with cloud storage support)
-- Weekly scheduled data collection
-- Deduplication and data validation
+### Data Collection
+
+- Automated web search using DuckDuckGo
+- Smart web scraping with retry logic and error handling
+- Hierarchical storage system (local/S3 compatible)
 - Rate limiting and robots.txt compliance
+
+### Content Analysis
+
+- AI-powered content analysis using LLM
+- Extraction of:
+  - Pain points and operational challenges
+  - Existing solutions and their features
+  - Service providers and their offerings
+- Source tracking with original quotes and context
+
+### Market Intelligence
+
+- Pain point frequency analysis
+- Solution landscape mapping
+- Provider market share insights
+- Opportunity gap identification
 
 ## Project Structure
 
@@ -18,55 +37,72 @@ A Python-based web scraping application designed to collect and analyze automati
 lead-generation-scraper/
 ├── app/
 │   ├── core/           # Domain models and business logic
-│   ├── api/            # API endpoints
-│   ├── infrastructure/ # Storage and external services
-│   └── db/            # Database/storage implementations
-├── docs/
-│   ├── technical_design.md
-│   ├── definition_of_done.md
-│   └── python_style_guide.md
+│   │   ├── web_search.py    # Search interfaces
+│   │   └── web_scrape.py   # Scraping interfaces
+│   ├── infrastructure/ # Service implementations
+│   │   ├── web_search_services.py
+│   │   └── web_scrape_services.py
+│   ├── configuration/  # Settings and configuration
+│   └── tests/         # Test suites
+├── storage/           # Data storage
+│   └── YYYY/MM/DD/    # Hierarchical data organization
 └── specs/
     ├── high_level_requirements.md
-    └── user_stories.md
+    └── user_stories.md # Project requirements
 ```
 
 ## Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/VKHChan/lead-generation-scraper.git
    cd lead-generation-scraper
    ```
 
-2. Install dependencies:
+2. Create and configure environment:
+
+   ```bash
+   cp .env_sample .env
+   # Edit .env with your settings
+   ```
+
+3. Install dependencies:
+
    ```bash
    pip install -r app/requirements.txt
    ```
 
-3. Run the application:
+4. Run a search:
    ```bash
-   fastapi dev app/main.py --port 7500
+   python -m app.main "your search query"
    ```
 
-## API Documentation
+## Configuration (.env)
 
-The API provides the following endpoints:
-
-- `POST /api/v1/scrape` - Initiate a new scraping job
-- `GET /api/v1/scrape/status/{jobId}` - Get job status
-- `GET /api/v1/leads` - Retrieve scraped leads
-- `GET /api/v1/leads/{leadId}` - Get specific lead details
-
-For detailed API documentation, visit the OpenAPI documentation at `/docs` when running the application.
+see [`.env.sample`](.env.sample)
 
 ## Development
 
-Please refer to the following documentation before contributing:
+The project is developed in phases:
 
-- [Technical Design](docs/technical_design.md)
-- [Definition of Done](docs/definition_of_done.md)
-- [Python Style Guide](docs/python_style_guide.md)
+1. **Data Collection** ✅
+
+   - Web search integration
+   - Content scraping
+   - Structured storage
+
+2. **Content Analysis** 🚧
+
+   - LLM-based analysis
+   - Entity extraction
+   - Pattern recognition
+
+3. **Market Intelligence** 📅
+   - Trend analysis
+   - Gap identification
+   - Lead scoring
 
 ## License
 
-MIT License 
+MIT License
