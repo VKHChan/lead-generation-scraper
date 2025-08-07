@@ -8,7 +8,7 @@ def build_default_search_result(
     title: str = "Test Title",
     url: str = "https://example.com",
     description: str = "Test Description",
-    date: datetime | None = None,
+    created_at: datetime | None = None,
     source: str = "test",
     snippet: str | None = "Test Snippet"
 ) -> SearchResult:
@@ -26,7 +26,7 @@ def build_default_search_result(
         title=title,
         url=url,
         description=description,
-        date=date or datetime(2024, 1, 1, 12, 0, 0),
+        created_at=created_at or datetime(2024, 1, 1, 12, 0, 0),
         source=source,
         snippet=snippet,
     )

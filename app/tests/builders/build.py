@@ -1,9 +1,11 @@
 
 from app.configuration.settings import Settings
 from app.configuration.web_search_settings import WebSearchSettings
+from app.core.web_scrape import ScrapePageResult
 from app.core.web_search import SearchResult
 
 from .settings_builder import build_settings, build_web_search_settings
+from .web_scrape_builder import MockResponse, build_mock_response, build_scrape_result
 from .web_search_builder import build_default_search_result
 
 
@@ -24,3 +26,13 @@ class Build:
     def web_search_settings(**kwargs) -> WebSearchSettings:
         """Factory method for WebSearchSettings"""
         return build_web_search_settings(**kwargs)
+
+    @staticmethod
+    def mock_response(**kwargs) -> MockResponse:
+        """Factory method for mock responses"""
+        return build_mock_response(**kwargs)
+
+    @staticmethod
+    def scrape_result(**kwargs) -> ScrapePageResult:
+        """Factory method for scrape results"""
+        return build_scrape_result(**kwargs)

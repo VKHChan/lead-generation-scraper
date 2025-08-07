@@ -14,7 +14,7 @@ def test_search_result_creation():
     assert result.description == "Test Description"
     assert result.source == "test"
     assert result.snippet == "Test Snippet"
-    assert result.date == datetime(2024, 1, 1, 12, 0, 0)
+    assert result.created_at == datetime(2024, 1, 1, 12, 0, 0)
 
 
 def test_search_result_optional_fields():
