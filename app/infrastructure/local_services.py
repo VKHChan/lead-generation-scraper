@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from configuration.settings import Settings
+from configuration import Settings
 from core.storage import Storage
 from core.utils import json_serial
 from injector import Binder, Module, inject

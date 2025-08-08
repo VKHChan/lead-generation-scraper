@@ -1,9 +1,11 @@
-from configuration.anthropic_settings import AnthropicSettings
-from configuration.llm_settings import LLMSettings
-from configuration.local_settings import LocalSettings
-from configuration.settings import Settings
-from configuration.web_scrape_settings import WebScrapeSettings
-from configuration.web_search_settings import WebSearchSettings
+from configuration import (
+    AnthropicSettings,
+    LLMSettings,
+    LocalSettings,
+    Settings,
+    WebScrapeSettings,
+    WebSearchSettings,
+)
 from core.domain import SearchProvider
 from faker import Faker
 

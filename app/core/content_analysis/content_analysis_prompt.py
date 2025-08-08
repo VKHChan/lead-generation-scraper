@@ -5,6 +5,8 @@ Here is the content:
 {content}
 
 You will perform 2 tasks:
+-----------
+
 1. Identify the list of pain points in the content for non-profit organizations
 for each pain point, provide the following information:
 - description: a short description of the pain point
@@ -20,6 +22,10 @@ for each service provider, provide the following information:
 - value_proposition: a short description of the value proposition of the service provider
 - pain_points: the list of pain points that the service provider can solve
 
-Return the analysis in the following format:
+Response
+-----------
+
+You will NOT respond with any verbiage. Your response will just be JSON in the following format:
+
 {format_instructions}
 """

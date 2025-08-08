@@ -1,11 +1,13 @@
 from typing import Type
 
-from configuration.settings import Settings, get_settings
-from infrastructure.anthropic_services import AnthropicModule
-from infrastructure.local_services import LocalModule
-from infrastructure.web_scrape_services import WebScraperModule
-from infrastructure.web_search_services import WebSearchModule
+from configuration import Settings, get_settings
 from injector import Binder, Injector, Module, T, singleton
+
+from .anthropic_services import AnthropicModule
+from .content_analysis_module import ContentAnalysisModule
+from .local_services import LocalModule
+from .web_scrape_services import WebScraperModule
+from .web_search_services import WebSearchModule
 
 
 class ApplicationModule(Module):
@@ -52,6 +54,7 @@ class ServiceCollection:
                 search_engine=settings.web_search_settings.search_engine
             ),
             WebScraperModule(),
+            ContentAnalysisModule(),
         ]
         if settings.local_settings.is_configured:
             modules.append(LocalModule(app_host=settings.app_host))

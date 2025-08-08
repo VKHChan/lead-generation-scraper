@@ -1,4 +1,4 @@
-from configuration.settings import Settings
+from configuration import Settings
 from core.chat_model import ChatModelProvider
 from core.domain import ModelHost
 from injector import Binder, Module, inject, singleton
@@ -42,8 +42,5 @@ class AnthropicChatModelProvider(ChatModelProvider):
             model=self._settings.llm_settings.chat_model_settings.model_name,
             api_key=self._settings.anthropic.api_key,
             temperature=self._settings.llm_settings.chat_model_settings.temperature,
-            top_p=self._settings.llm_settings.chat_model_settings.top_p,
-            max_tokens=self._settings.llm_settings.chat_model_settings.max_tokens,
-            streaming=self._settings.llm_settings.chat_model_settings.streaming,
-            force_tool_support=self._settings.llm_settings.chat_model_settings.force_tool_support,
+            max_tokens=self._settings.llm_settings.chat_model_settings.max_tokens
         )

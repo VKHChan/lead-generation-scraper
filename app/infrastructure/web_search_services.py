@@ -1,10 +1,9 @@
 import asyncio
-import json
 import logging
 import time
 from datetime import datetime
 
-from configuration.settings import Settings
+from configuration import Settings
 from core.domain import SearchProvider
 from core.storage import Storage
 from core.utils import StandardFileNaming

@@ -3,7 +3,7 @@ import json
 import logging
 from datetime import datetime
 
-from configuration.settings import Settings
+from configuration import Settings
 from core.domain import ScrapePageResult
 from core.storage import Storage
 from core.utils import StandardFileNaming

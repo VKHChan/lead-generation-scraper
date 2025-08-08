@@ -2,7 +2,7 @@
 from unittest.mock import patch
 
 import pytest
-from configuration.settings import Settings
+from configuration import Settings
 from core.web_search import SearchEngine
 from infrastructure.service_collection import ServiceCollection, ServiceProvider
 from tests.builders.build import Build

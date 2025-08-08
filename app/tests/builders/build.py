@@ -1,5 +1,5 @@
 
-from configuration.settings import Settings
+from configuration import Settings
 from configuration.web_search_settings import WebSearchSettings
 from core.domain import ScrapePageResult, SearchResult
 
