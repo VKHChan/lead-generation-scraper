@@ -1,7 +1,7 @@
 
-from app.configuration.settings import Settings
-from app.configuration.web_search_settings import WebSearchSettings
-from app.core.domain import ScrapePageResult, SearchResult
+from configuration.settings import Settings
+from configuration.web_search_settings import WebSearchSettings
+from core.domain import ScrapePageResult, SearchResult
 
 from .settings_builder import build_settings, build_web_search_settings
 from .web_scrape_builder import MockResponse, build_mock_response, build_scrape_result

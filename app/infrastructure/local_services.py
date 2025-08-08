@@ -1,11 +1,10 @@
 import json
 from pathlib import Path
 
+from configuration.settings import Settings
+from core.storage import Storage
+from core.utils import json_serial
 from injector import Binder, Module, inject
-
-from app.configuration.settings import Settings
-from app.core.storage import Storage
-from app.core.utils import json_serial
 
 from .app_host import AppHost
 

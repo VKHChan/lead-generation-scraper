@@ -83,3 +83,39 @@ class ChatModelSettings:
     temperature: float = 0.7
     top_p: float = 0.95
     max_tokens: int | None = None
+
+
+class ContentType:
+    """
+    Represents the type of content being analyzed.
+    """
+    COMPANY_BLOG = "company_blog"
+    NON_PROFIT_RESOURCE_BLOG = "non_profit_resource_blog"
+    PERSONAL_BLOG = "personal_blog"
+    OTHER = "other"
+
+
+class PainPoint(BaseModel):
+    description: str
+    category: str
+    impact: str
+    source_quote: str
+    solution: str | None = None
+
+
+class ServiceProvider(BaseModel):
+    name: str
+    website: str | None
+    value_proposition: str | None = None
+    pain_points: list[PainPoint] | None = None
+
+
+class ContentAnalysis(BaseModel):
+    url: str
+    title: str
+    analysis_date: datetime
+    content_type: str = Field(
+        default=ContentType.OTHER,
+        description="Content type - one of: company_blog, non_profit_resource_blog, personal_blog, other (default)"
+    )
+    service_providers: list[ServiceProvider] | None = None

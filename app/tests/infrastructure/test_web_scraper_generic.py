@@ -3,10 +3,9 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
-
-from app.core.storage import Storage
-from app.infrastructure.web_scrape_services import WebScraperGeneric
-from app.tests.builders.build import Build
+from core.storage import Storage
+from infrastructure.web_scrape_services import WebScraperGeneric
+from tests.builders.build import Build
 
 
 @pytest.fixture

@@ -1,6 +1,5 @@
+from core.domain import ChatModelSettings
 from langchain_core.language_models.chat_models import BaseChatModel
-
-from app.core.domain import ChatModelSettings
 
 
 class ChatModelProvider:

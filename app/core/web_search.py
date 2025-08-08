@@ -1,4 +1,4 @@
-from app.core.domain import SearchResult
+from core.domain import SearchResult
 
 
 class SearchEngine:

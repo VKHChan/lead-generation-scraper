@@ -1,10 +1,9 @@
 from datetime import datetime
 
 import pytest
-
-from app.core.domain import SearchProvider
-from app.core.web_search import SearchEngine
-from app.tests.builders.build import Build
+from core.domain import SearchProvider
+from core.web_search import SearchEngine
+from tests.builders.build import Build
 
 
 def test_search_result_creation():

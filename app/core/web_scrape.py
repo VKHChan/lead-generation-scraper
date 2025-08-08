@@ -1,4 +1,4 @@
-from app.core.domain import ScrapingResult
+from core.domain import ScrapingResult
 
 
 class WebScraper:

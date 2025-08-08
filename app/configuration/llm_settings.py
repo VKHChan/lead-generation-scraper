@@ -1,6 +1,6 @@
 from typing import Any, Dict
 
-from app.core.domain import ChatModelSettings
+from core.domain import ChatModelSettings
 
 
 class LLMSettings:
@@ -17,7 +17,7 @@ class LLMSettings:
                 "LLM_FORCE_TOOL_SUPPORT", "false").lower() == "true",
             temperature=float(values.get("LLM_TEMPERATURE", "0.7")),
             top_p=float(values.get("LLM_TOP_P", "0.95")),
-            max_tokens=int(values.get("LLM_MAX_TOKENS", "0")) or None,
+            max_tokens=int(values.get("LLM_MAX_TOKENS", "1024")) or None,
         )
 
     @property

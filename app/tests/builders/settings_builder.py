@@ -1,12 +1,11 @@
+from configuration.anthropic_settings import AnthropicSettings
+from configuration.llm_settings import LLMSettings
+from configuration.local_settings import LocalSettings
+from configuration.settings import Settings
+from configuration.web_scrape_settings import WebScrapeSettings
+from configuration.web_search_settings import WebSearchSettings
+from core.domain import SearchProvider
 from faker import Faker
-
-from app.configuration.anthropic_settings import AnthropicSettings
-from app.configuration.llm_settings import LLMSettings
-from app.configuration.local_settings import LocalSettings
-from app.configuration.settings import Settings
-from app.configuration.web_scrape_settings import WebScrapeSettings
-from app.configuration.web_search_settings import WebSearchSettings
-from app.core.domain import SearchProvider
 
 
 def build_web_search_settings(

@@ -4,14 +4,13 @@ import logging
 import time
 from datetime import datetime
 
+from configuration.settings import Settings
+from core.domain import SearchProvider
+from core.storage import Storage
+from core.utils import StandardFileNaming
+from core.web_search import SearchEngine, SearchResult
 from ddgs import DDGS
 from injector import Binder, Module, inject
-
-from app.configuration.settings import Settings
-from app.core.domain import SearchProvider
-from app.core.storage import Storage
-from app.core.utils import StandardFileNaming
-from app.core.web_search import SearchEngine, SearchResult
 
 
 class WebSearchModule(Module):

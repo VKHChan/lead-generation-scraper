@@ -2,11 +2,10 @@
 from unittest.mock import patch
 
 import pytest
-
-from app.configuration.settings import Settings
-from app.core.web_search import SearchEngine
-from app.infrastructure.service_collection import ServiceCollection, ServiceProvider
-from app.tests.builders.build import Build
+from configuration.settings import Settings
+from core.web_search import SearchEngine
+from infrastructure.service_collection import ServiceCollection, ServiceProvider
+from tests.builders.build import Build
 
 
 @pytest.fixture(scope="module")

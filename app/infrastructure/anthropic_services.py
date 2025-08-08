@@ -1,10 +1,9 @@
+from configuration.settings import Settings
+from core.chat_model import ChatModelProvider
+from core.domain import ModelHost
 from injector import Binder, Module, inject, singleton
 from langchain_anthropic import ChatAnthropic
 from langchain_core.language_models.chat_models import BaseChatModel
-
-from app.configuration.settings import Settings
-from app.core.chat_model import ChatModelProvider
-from app.core.domain import ModelHost
 
 """
 We could create a similar services for azure, and other cloud providers.
@@ -22,6 +21,7 @@ class AnthropicModule(Module):
         self.llm_model_host = llm_model_host
 
     def configure(self, binder: Binder) -> None:
+        # only bind if the llm_model_host is anthropic
         if self.llm_model_host == ModelHost.ANTHROPIC:
             binder.bind(ChatModelProvider,
                         to=AnthropicChatModelProvider,
