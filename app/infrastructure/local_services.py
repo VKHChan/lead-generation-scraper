@@ -42,9 +42,19 @@ class LocalStorage(Storage):
         if not file_path.exists():
             raise FileNotFoundError(f"File {file_name} not found")
 
-        return file_path.read_bytes()
+        data = file_path.read_bytes()
 
-    def write(self, file_name: str, data: bytes | dict, container: str | None = None) -> None:
+        return data
+
+    def read_json(self, file_name: str) -> dict:
+        """
+        Reads the JSON file from the local storage.
+        """
+
+        data = self.read(file_name)
+        return json.loads(data)
+
+    def write(self, file_name: str, data: bytes, container: str | None = None) -> None:
         """
         Writes the file to the local storage.
         """
@@ -53,11 +63,17 @@ class LocalStorage(Storage):
         file_path.parent.mkdir(parents=True, exist_ok=True)
         if isinstance(data, bytes):
             file_path.write_bytes(data)
-        elif isinstance(data, dict):
-            file_path.write_text(json.dumps(
-                data, default=json_serial, indent=4))
         else:
             raise ValueError(f"Invalid data type: {type(data)}")
+
+    def write_json(self, file_name: str, data: dict) -> None:
+        """
+        Writes the JSON file to the local storage.
+        """
+
+        file_path = self.storage_path / file_name
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.write_text(json.dumps(data, default=json_serial, indent=4))
 
     def list_all_files(self, path: str) -> list[str]:
         """
