@@ -8,9 +8,10 @@ from ddgs import DDGS
 from injector import Binder, Module, inject
 
 from app.configuration.settings import Settings
+from app.core.domain import SearchProvider
 from app.core.storage import Storage
 from app.core.utils import StandardFileNaming
-from app.core.web_search import SearchEngine, SearchProvider, SearchResult
+from app.core.web_search import SearchEngine, SearchResult
 
 
 class WebSearchModule(Module):
@@ -22,13 +23,13 @@ class WebSearchModule(Module):
         search_engine = self.search_engine.lower()
 
         # Bind the appropriate implementation based on settings
-        if search_engine == SearchProvider.GOOGLE.value:
+        if search_engine == SearchProvider.GOOGLE:
             binder.bind(SearchEngine, to=GoogleSearch)
-        elif search_engine == SearchProvider.DUCKDUCKGO.value:
+        elif search_engine == SearchProvider.DUCKDUCKGO:
             binder.bind(SearchEngine, to=DuckDuckGoSearch)
         else:
             raise ValueError(
-                f"Invalid search engine: {search_engine}. Must be one of: {SearchProvider.GOOGLE.value}, {SearchProvider.DUCKDUCKGO.value}")
+                f"Invalid search engine: {search_engine}. Must be one of: {SearchProvider.GOOGLE}, {SearchProvider.DUCKDUCKGO}")
 
 
 class GoogleSearch(SearchEngine):

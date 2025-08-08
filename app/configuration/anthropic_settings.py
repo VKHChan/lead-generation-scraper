@@ -17,16 +17,12 @@ class AWSSettings:
 """
 
 
-@dataclass
 class AnthropicSettings(ConfigurableSettings):
+    api_key: str | None = None
 
     def __init__(self, values: dict[str, str | None]):
-        self._api_key = values.get("ANTHROPIC_API_KEY")
-
-    @property
-    def api_key(self) -> str:
-        return self._api_key
+        self.api_key = values.get("ANTHROPIC_API_KEY") or ""
 
     @property
     def is_configured(self) -> bool:
-        return self._api_key is not None
+        return bool(self.api_key)

@@ -3,7 +3,8 @@ from langchain_anthropic import ChatAnthropic
 from langchain_core.language_models.chat_models import BaseChatModel
 
 from app.configuration.settings import Settings
-from app.core.domain import ChatModelProvider, ModelHost
+from app.core.chat_model import ChatModelProvider
+from app.core.domain import ModelHost
 
 """
 We could create a similar services for azure, and other cloud providers.

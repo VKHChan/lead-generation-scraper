@@ -7,9 +7,10 @@ from injector import Binder, Module, inject
 from playwright.async_api import Page, async_playwright
 
 from app.configuration.settings import Settings
+from app.core.domain import ScrapePageResult
 from app.core.storage import Storage
 from app.core.utils import StandardFileNaming
-from app.core.web_scrape import ScrapePageResult, ScrapingResult, WebScraper
+from app.core.web_scrape import ScrapingResult, WebScraper
 
 DEFAULT_SUCCESS_STATUS = "success"
 DEFAULT_FAILED_STATUS = "failed"

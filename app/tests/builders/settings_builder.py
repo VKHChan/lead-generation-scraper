@@ -1,10 +1,12 @@
 from faker import Faker
 
+from app.configuration.anthropic_settings import AnthropicSettings
+from app.configuration.llm_settings import LLMSettings
 from app.configuration.local_settings import LocalSettings
 from app.configuration.settings import Settings
 from app.configuration.web_scrape_settings import WebScrapeSettings
 from app.configuration.web_search_settings import WebSearchSettings
-from app.core.web_search import SearchProvider
+from app.core.domain import SearchProvider
 
 
 def build_web_search_settings(
@@ -17,7 +19,7 @@ def build_web_search_settings(
         search_engine_url: str | None = None) -> WebSearchSettings:
     fake = Faker()
     values = {
-        "SEARCH_ENGINE": search_engine or fake.random_element(elements=[p.value for p in SearchProvider]),
+        "SEARCH_ENGINE": search_engine or fake.random_element(elements=[p for p in SearchProvider]),
         "API_KEY": api_key or fake.uuid4(),
         "SEARCH_LIMIT": search_limit or str(fake.random_int(min=1, max=10)),
         "SEARCH_TIMEOUT": search_timeout or str(fake.random_int(min=1, max=10)),
@@ -37,7 +39,7 @@ def build_settings(**kwargs) -> Settings:
         "LOCAL_STORAGE_PATH": "/tmp/test_storage",
 
         # Search settings
-        "SEARCH_ENGINE": kwargs.get("search_engine", SearchProvider.DUCKDUCKGO.value),
+        "SEARCH_ENGINE": kwargs.get("search_engine", SearchProvider.DUCKDUCKGO),
         "SEARCH_LIMIT": str(kwargs.get("search_limit", 10)),
         "SEARCH_TIMEOUT": str(kwargs.get("search_timeout", 30)),
         "SEARCH_RETRIES": str(kwargs.get("search_retries", 3)),
@@ -49,7 +51,20 @@ def build_settings(**kwargs) -> Settings:
         "SCRAPER_RETRIES": str(kwargs.get("scraper_retries", 3)),
         "SCRAPER_TIMEOUT": str(kwargs.get("scraper_timeout", 10000)),
         "SCRAPER_CONCURRENT_LIMIT": str(kwargs.get("scraper_concurrent_limit", 2)),
-        "SCRAPER_HEADERS": '{"User-Agent": "Test Agent"}'
+        "SCRAPER_HEADERS": '{"User-Agent": "Test Agent"}',
+
+        # LLM settings
+        "LLM_HOST": "anthropic",
+        "LLM_PROVIDER": "anthropic",
+        "LLM_MODEL_NAME": "claude-3-5-sonnet-20240620",
+        "LLM_STREAMING": "true",
+        "LLM_FORCE_TOOL_SUPPORT": "false",
+        "LLM_TEMPERATURE": "0.7",
+        "LLM_TOP_P": "0.95",
+        "LLM_MAX_TOKENS": "1000",
+
+        # Anthropic settings
+        "ANTHROPIC_API_KEY": "test_api_key"
     }
 
     # Create a Settings instance without calling __init__
@@ -62,5 +77,7 @@ def build_settings(**kwargs) -> Settings:
     settings._web_search_settings = WebSearchSettings(settings_dict)
     settings._web_scrape_settings = WebScrapeSettings(settings_dict)
     settings._local_settings = LocalSettings(settings_dict)
+    settings._llm_settings = LLMSettings(settings_dict)
+    settings._anthropic_settings = AnthropicSettings(settings_dict)
 
     return settings
