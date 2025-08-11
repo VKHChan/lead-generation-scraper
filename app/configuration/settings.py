@@ -39,6 +39,8 @@ class Settings:
         self._local_settings = LocalSettings(self._settings)
         self._llm_settings = LLMSettings(self._settings)
         self._anthropic_settings = AnthropicSettings(self._settings)
+        self._content_analysis_path = self._settings.get(
+            "CONTENT_ANALYSIS_PATH") or "content_analysis"
 
     def __get_dotenv_settings(self, dotenv_path: str = "") -> dict[str, str | None]:
         config = dotenv_values()
@@ -75,6 +77,10 @@ class Settings:
     @property
     def anthropic(self) -> AnthropicSettings:
         return self._anthropic_settings
+
+    @property
+    def content_analysis_path(self) -> str:
+        return self._content_analysis_path
 
 
 def get_settings(

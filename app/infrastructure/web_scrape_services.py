@@ -36,7 +36,7 @@ class WebScraperGeneric(WebScraper):
         self._failed_urls = []
         self._successful_urls = []
 
-    async def scrape_multiple(self, urls: list[str]) -> ScrapingResult:
+    async def scrape_multiple(self, urls: list[str], file_path: str = None) -> ScrapingResult:
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
             context = await browser.new_context(
@@ -62,7 +62,7 @@ class WebScraperGeneric(WebScraper):
                     page = None
                     try:
                         page = await context.new_page()
-                        result = await self._scrape_page(url, page)
+                        result = await self._scrape_page(url, page, file_path)
 
                         return result
                     finally:
@@ -76,7 +76,7 @@ class WebScraperGeneric(WebScraper):
                 await browser.close()
         return self._get_statistics()
 
-    async def _scrape_page(self, url: str, page: Page) -> ScrapePageResult:
+    async def _scrape_page(self, url: str, page: Page, file_path: str = None) -> ScrapePageResult:
         self._total_requests += 1
         for attempt in range(self._scrape_settings.retries):
             try:
@@ -104,14 +104,13 @@ class WebScraperGeneric(WebScraper):
                 self._successful_urls.append(url)
 
                 status = DEFAULT_SUCCESS_STATUS if result.success else DEFAULT_FAILED_STATUS
-                now = datetime.now()
-                year = now.strftime("%Y")
-                month = now.strftime("%m")
-                day = now.strftime("%d")
-                folder_name = f"{self._scrape_settings.scraper_folder_name}/{year}/{month}/{day}/{status}"
+                folder_name = f"{self._scrape_settings.scraper_folder_name}/{status}"
+                if file_path:
+                    folder_name = f"{file_path}/{self._scrape_settings.scraper_folder_name}/{status}"
+
                 file_name = f"{folder_name}/{self._file_naming.clean_url_for_file(url)}_scraped.json"
                 await asyncio.to_thread(
-                    self._storage.write,
+                    self._storage.write_json,
                     file_name,
                     result.model_dump()
                 )
