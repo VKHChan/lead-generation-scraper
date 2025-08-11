@@ -95,10 +95,36 @@ class ContentType:
     OTHER = "other"
 
 
+class PainPointCategories:
+    """
+    Represents the categories of pain points.
+    """
+    FUNDRAISING_RELATIONS = "fundraising_and_donor_relations"
+    GRANTS_AND_FUNDING_MANAGEMENT = "grants_and_funding_management"
+    VOLUNTEER_AND_RECRUITMENT_MANAGEMENT = "volunteer_and_recruitment_management"
+    PROGRAM_SERVICE_DELIVERY = "program_service_delivery"
+    MARKETING_OUTREACH_AND_ENGAGEMENT = "marketing_outreach_and_engagement"
+    FINANCE_ACCOUNTING_AND_COMPLIANCE = "finance_accounting_and_compliance"
+    INTERNAL_OPERATIONS_AND_STAFF_PRODUCTIVITY = "internal_operations_and_staff_productivity"
+    IMPACT_MEASUREMENT_AND_REPORTING = "impact_measurement_and_reporting"
+    IT_AND_DATA_MANAGEMENT = "it_and_data_management"
+    OTHER = "other"
+
+
+class PainPointImpact:
+    OTHER = "other"
+
+
 class PainPoint(BaseModel):
     description: str
-    category: str
-    impact: str
+    category: str = Field(
+        default=PainPointCategories.OTHER,
+        description="Pain point category - one of: fundraising_and_donor_relations, grants_and_funding_management, volunteer_and_recruitment_management, program_service_delivery, marketing_outreach_and_engagement, finance_accounting_and_compliance, internal_operations_and_staff_productivity, impact_measurement_and_reporting, it_and_data_management, other (default)"
+    )
+    impact: str = Field(
+        default=PainPointImpact.OTHER,
+        description="Pain point impact - one of: other (default)"
+    )
     source_quote: str
     solution: str | None = None
 
