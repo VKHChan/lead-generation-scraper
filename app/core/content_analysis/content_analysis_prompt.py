@@ -34,3 +34,40 @@ You will NOT respond with any verbiage. Your response will just be JSON in the f
 
 {format_instructions}
 """
+
+FOCUSED_CONTENT_ANALYSIS_PROMPT = """
+You are an expert in nonprofit operations and technology solutions. Analyze this content to identify automation opportunities and existing solutions.
+
+Content to analyze:
+{content}
+
+Extract ONLY the following information (if present in the content):
+
+1. Automation Opportunities:
+For each task/process that could be automated, provide:
+- Description: What is the manual/time-consuming task?
+- Current Process: How are nonprofits handling this now?
+- Impact: What is the cost/time burden? (Include specific numbers if mentioned)
+- Scale: How common is this issue? (e.g., affects all nonprofits, only large ones, etc.)
+- Complexity: How technically complex would automation be? (simple/medium/complex)
+
+2. Existing Service Providers:
+For each provider mentioned that offers automation solutions:
+- Name and Website
+- Main Features: What specifically do they automate?
+- Target Market: What size/type of nonprofits do they serve?
+- Pricing Indicators: Any mentioned pricing information (if available)
+
+3. Implementation Effort:
+For each automation opportunity, indicate:
+- Technical Requirements: What would be needed to build this?
+- Integration Needs: Does it need to work with other systems?
+- Time to Build: Rough estimate (small/medium/large project)
+- Value Proposition: Why would nonprofits pay for this?
+
+DO NOT make assumptions or add information not present in the content.
+If certain aspects are not mentioned, mark them as "Not specified in content".
+
+Response Format:
+{format_instructions}
+"""

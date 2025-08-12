@@ -145,3 +145,32 @@ class ContentAnalysis(BaseModel):
         description="Content type - one of: company_blog, non_profit_resource_blog, personal_blog, other (default)"
     )
     service_providers: list[ServiceProvider] | None = None
+
+
+class AutomationOpportunity(BaseModel):
+    description: str
+    current_process: str
+    impact: str
+    scale: str
+    complexity: str
+    technical_requirements: str
+    integration_needs: str
+    time_to_build: str
+    value_proposition: str
+    source_quote: str
+
+
+class ServiceProviderFocused(BaseModel):
+    name: str
+    website: str | None
+    main_features: list[str]
+    target_market: str | None
+    pricing_indicators: str | None
+
+
+class FocusedContentAnalysis(BaseModel):
+    url: str
+    title: str
+    analysis_date: datetime
+    automation_opportunities: list[AutomationOpportunity]
+    service_providers: list[ServiceProviderFocused]
