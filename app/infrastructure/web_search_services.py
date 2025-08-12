@@ -1,16 +1,15 @@
 import asyncio
-import json
 import logging
 import time
 from datetime import datetime
 
+from configuration import Settings
+from core.domain import SearchProvider
+from core.storage import Storage
+from core.utils import StandardFileNaming
+from core.web_search import SearchEngine, SearchResult
 from ddgs import DDGS
 from injector import Binder, Module, inject
-
-from app.configuration.settings import Settings
-from app.core.storage import Storage
-from app.core.utils import StandardFileNaming
-from app.core.web_search import SearchEngine, SearchProvider, SearchResult
 
 
 class WebSearchModule(Module):
@@ -22,13 +21,13 @@ class WebSearchModule(Module):
         search_engine = self.search_engine.lower()
 
         # Bind the appropriate implementation based on settings
-        if search_engine == SearchProvider.GOOGLE.value:
+        if search_engine == SearchProvider.GOOGLE:
             binder.bind(SearchEngine, to=GoogleSearch)
-        elif search_engine == SearchProvider.DUCKDUCKGO.value:
+        elif search_engine == SearchProvider.DUCKDUCKGO:
             binder.bind(SearchEngine, to=DuckDuckGoSearch)
         else:
             raise ValueError(
-                f"Invalid search engine: {search_engine}. Must be one of: {SearchProvider.GOOGLE.value}, {SearchProvider.DUCKDUCKGO.value}")
+                f"Invalid search engine: {search_engine}. Must be one of: {SearchProvider.GOOGLE}, {SearchProvider.DUCKDUCKGO}")
 
 
 class GoogleSearch(SearchEngine):
@@ -44,7 +43,7 @@ class GoogleSearch(SearchEngine):
         if not self._api_key:
             raise ValueError("Google Search API key not configured")
 
-    async def search(self, query: str) -> list[SearchResult] | None:
+    async def search(self, query: str, file_path: str = None) -> list[SearchResult] | None:
         try:
             if not self._api_key:
                 raise ValueError("Google Search API key not configured")
@@ -69,7 +68,7 @@ class DuckDuckGoSearch(SearchEngine):
         # Create the DDGS client
         self._ddgs = DDGS(timeout=self._search_timeout)
 
-    async def search(self, query: str) -> list[SearchResult] | None:
+    async def search(self, query: str, file_path: str = None) -> list[SearchResult] | None:
         """Search DuckDuckGo for the given query"""
         try:
             logging.info(f"Starting DuckDuckGo search for query: {query}")
@@ -89,32 +88,34 @@ class DuckDuckGoSearch(SearchEngine):
             search_results = []
             count = 0
             for result in results:
-                search_result = SearchResult(
-                    title=result.get('title', ''),
-                    url=result.get('href', ''),
-                    description=result.get('body', ''),
-                    created_at=datetime.now(),
-                    source='DuckDuckGo',
-                    snippet=result.get('body', '')
-                )
-                count += 1
-                if count > self._search_limit:
-                    break
-                search_results.append(search_result)
+                try:
+                    search_result = SearchResult(
+                        title=result.get('title', ''),
+                        url=result.get('href', ''),
+                        description=result.get('body', ''),
+                        created_at=datetime.now(),
+                        source='DuckDuckGo',
+                        snippet=result.get('body', '')
+                    )
+                    count += 1
+                    if count > self._search_limit:
+                        break
+                    search_results.append(search_result)
 
-                # Store each result in storage as json in the dated folder
-                # Create folder hierarchy YYYY/MM/DD
-                now = datetime.now()
-                year = now.strftime("%Y")
-                month = now.strftime("%m")
-                day = now.strftime("%d")
+                    # Store each result in storage as json in the dated folder
+                    folder_name = f"{self._settings.web_search_settings.search_folder_name}"
 
-                folder_name = f"{self._settings.web_search_settings.search_folder_name}/{year}/{month}/{day}"
-                file_name = f"{folder_name}/{self._file_naming.clean_url_for_file(result.get('href', ''))}_search.json"
-                self._storage.write(
-                    file_name,
-                    search_result.model_dump()
-                )
+                    if file_path:
+                        folder_name = f"{file_path}/{self._settings.web_search_settings.search_folder_name}"
+
+                    file_name = f"{folder_name}/{self._file_naming.clean_url_for_file(result.get('href', ''))}_search.json"
+                    self._storage.write_json(
+                        file_name,
+                        search_result.model_dump()
+                    )
+                except Exception as e:
+                    logging.error(f"Error processing search result: {str(e)}")
+                    continue
 
             logging.info(
                 f"Search successful, found {len(search_results)} results")

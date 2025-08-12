@@ -1,0 +1,46 @@
+from configuration import Settings
+from core.chat_model import ChatModelProvider
+from core.domain import ModelHost
+from injector import Binder, Module, inject, singleton
+from langchain_anthropic import ChatAnthropic
+from langchain_core.language_models.chat_models import BaseChatModel
+
+"""
+We could create a similar services for azure, and other cloud providers.
+
+For example, if we want to use azure storage, we could create a AzureStorage similar to LocalStorage,
+and bind it to the Storage interface if app_host is azure.
+And we can create a ChatModelProvider for azure, and bind it to the ChatModelProvider interface if llm_model_host is azure.
+
+The same for other cloud providers.
+"""
+
+
+class AnthropicModule(Module):
+    def __init__(self, llm_model_host: str):
+        self.llm_model_host = llm_model_host
+
+    def configure(self, binder: Binder) -> None:
+        # only bind if the llm_model_host is anthropic
+        if self.llm_model_host == ModelHost.ANTHROPIC:
+            binder.bind(ChatModelProvider,
+                        to=AnthropicChatModelProvider,
+                        scope=singleton
+                        )
+
+
+class AnthropicChatModelProvider(ChatModelProvider):
+    @inject
+    def __init__(self, settings: Settings):
+        self._settings = settings
+
+    def can_handle(self) -> bool:
+        return self._settings.llm_settings.chat_model_settings.host == ModelHost.ANTHROPIC
+
+    def get_chat_model(self) -> BaseChatModel:
+        return ChatAnthropic(
+            model=self._settings.llm_settings.chat_model_settings.model_name,
+            api_key=self._settings.anthropic.api_key,
+            temperature=self._settings.llm_settings.chat_model_settings.temperature,
+            max_tokens=self._settings.llm_settings.chat_model_settings.max_tokens
+        )

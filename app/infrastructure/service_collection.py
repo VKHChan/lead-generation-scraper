@@ -1,12 +1,13 @@
 from typing import Type
 
+from configuration import Settings, get_settings
 from injector import Binder, Injector, Module, T, singleton
 
-from app.configuration.settings import Settings, get_settings
-from app.core.storage import Storage
-from app.infrastructure.local_services import LocalModule
-from app.infrastructure.web_scrape_services import WebScraperModule
-from app.infrastructure.web_search_services import WebSearchModule
+from .anthropic_services import AnthropicModule
+from .content_analysis_module import ContentAnalysisModule
+from .local_services import LocalModule
+from .web_scrape_services import WebScraperModule
+from .web_search_services import WebSearchModule
 
 
 class ApplicationModule(Module):
@@ -50,11 +51,17 @@ class ServiceCollection:
         modules = [
             ApplicationModule(),
             WebSearchModule(
-                search_engine=settings.web_search_settings.search_engine),
+                search_engine=settings.web_search_settings.search_engine
+            ),
             WebScraperModule(),
+            ContentAnalysisModule(),
         ]
         if settings.local_settings.is_configured:
             modules.append(LocalModule(app_host=settings.app_host))
+        if settings.anthropic.is_configured:
+            modules.append(AnthropicModule(
+                llm_model_host=settings.llm_settings.chat_model_settings.host
+            ))
 
         injector = Injector(modules=modules)
         return ServiceProvider._initialize(injector)

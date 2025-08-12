@@ -43,3 +43,6 @@ local_config.ini
 coverage.xml
 htmlcov/
 .pytest_cache/ 
+
+# notebooks
+notebooks/

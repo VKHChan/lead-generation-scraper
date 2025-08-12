@@ -1,6 +1,9 @@
 import json
 from datetime import date, datetime
 
+from langdetect import detect
+from langdetect.lang_detect_exception import LangDetectException
+
 
 class FileNaming:
     """Core interface for file naming strategies"""
@@ -43,3 +46,10 @@ def json_serial(obj):
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
     raise TypeError("Type %s not serializable" % type(obj))
+
+
+def is_english(text):
+    try:
+        return detect(text) == 'en'
+    except LangDetectException:
+        return False

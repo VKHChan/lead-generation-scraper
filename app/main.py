@@ -7,10 +7,15 @@ import asyncio
 import logging
 import os
 import sys
+from datetime import datetime
 
-from app.core.web_scrape import WebScraper
-from app.core.web_search import SearchEngine
-from app.infrastructure.service_collection import ServiceCollection
+from configuration import Settings
+from core.chat_model import ChatModelProvider
+from core.content_analysis import ContentAnalysisService
+from core.storage import Storage
+from core.web_scrape import WebScraper
+from core.web_search import SearchEngine
+from infrastructure.service_collection import ServiceCollection
 
 # Configure logging to show all messages
 logging.basicConfig(
@@ -19,9 +24,6 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]
 )
 
-# Add the parent directory to sys.path to allow importing app modules
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 
 async def main():
     """Run a test search and print the results"""
@@ -29,15 +31,25 @@ async def main():
     service_provider = ServiceCollection.add_services()
 
     # Get the configured search engine from the service provider
+    settings = service_provider.get(Settings)
+    storage = service_provider.get(Storage)
     search_engine = service_provider.get(SearchEngine)
     web_scraper = service_provider.get(WebScraper)
+    content_analysis = service_provider.get(ContentAnalysisService)
+    chat_model = service_provider.get(ChatModelProvider)
 
     # Get search query from command line or use default
     query = sys.argv[1] if len(sys.argv) > 1 else "python programming"
     print(f"Searching for: {query}")
 
+    now = datetime.now()
+    year = now.strftime("%Y")
+    month = now.strftime("%m")
+    day = now.strftime("%d")
+    folder_path = f"{year}/{month}/{day}"
+
     # Perform search
-    results = await search_engine.search(query)
+    results = await search_engine.search(query, folder_path)
 
     # Print results
     if results:
@@ -49,10 +61,24 @@ async def main():
             print(f"Description: {result.description[:100]}...")
     else:
         print("No results found or an error occurred.")
+    if results:
+        scraping_result = await web_scraper.scrape_multiple(
+            [result.url for result in results], folder_path)
+        print(scraping_result)
 
-    scraping_result = await web_scraper.scrape_multiple(
-        [result.url for result in results])
-    print(scraping_result)
+        sucess_scrape_path = f"{folder_path}/{settings.web_scrape_settings.scraper_folder_name}/success"
+        url_list = storage.list_all_files(sucess_scrape_path)
+
+        if len(url_list) > 0:
+            for url in url_list:
+                print(f"Analyzing {url}")
+                file_name = url.split("/")[-1]
+                content = storage.read_json(url)
+                analysis = content_analysis.analyze_content(
+                    file_name, content, chat_model, folder_path)
+                print(analysis)
+        else:
+            print("No successful scrapes found.")
 
 
 if __name__ == "__main__":

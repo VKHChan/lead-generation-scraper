@@ -3,6 +3,8 @@ import os
 import dotenv
 from dotenv import dotenv_values
 
+from .anthropic_settings import AnthropicSettings
+from .llm_settings import LLMSettings
 from .local_settings import LocalSettings
 from .web_scrape_settings import WebScrapeSettings
 from .web_search_settings import WebSearchSettings
@@ -35,6 +37,10 @@ class Settings:
         self._web_search_settings = WebSearchSettings(self._settings)
         self._web_scrape_settings = WebScrapeSettings(self._settings)
         self._local_settings = LocalSettings(self._settings)
+        self._llm_settings = LLMSettings(self._settings)
+        self._anthropic_settings = AnthropicSettings(self._settings)
+        self._content_analysis_path = self._settings.get(
+            "CONTENT_ANALYSIS_PATH") or "content_analysis"
 
     def __get_dotenv_settings(self, dotenv_path: str = "") -> dict[str, str | None]:
         config = dotenv_values()
@@ -63,6 +69,18 @@ class Settings:
     @property
     def app_host(self) -> str:
         return self._app_host
+
+    @property
+    def llm_settings(self) -> LLMSettings:
+        return self._llm_settings
+
+    @property
+    def anthropic(self) -> AnthropicSettings:
+        return self._anthropic_settings
+
+    @property
+    def content_analysis_path(self) -> str:
+        return self._content_analysis_path
 
 
 def get_settings(

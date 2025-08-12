@@ -173,7 +173,7 @@ We use factory functions organized through a facade class to create test data. T
        settings_dict = {
            "APP_HOST": "local",
            "LOCAL_STORAGE_PATH": "/tmp/test_storage",
-           "SEARCH_ENGINE": kwargs.get("search_engine", SearchProvider.DUCKDUCKGO.value),
+           "SEARCH_ENGINE": kwargs.get("search_engine", SearchProvider.DUCKDUCKGO),
            "SEARCH_LIMIT": str(kwargs.get("search_limit", 10)),
            "SEARCH_TIMEOUT": str(kwargs.get("search_timeout", 30)),
            # ... more defaults ...

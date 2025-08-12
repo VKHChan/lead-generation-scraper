@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any
 
-from app.core.web_scrape import ScrapePageResult
+from core.domain import ScrapePageResult
 
 
 class MockResponse:

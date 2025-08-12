@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.core.web_search import SearchResult
+from core.domain import SearchResult
 
 
 def build_default_search_result(

@@ -4,7 +4,13 @@ class Storage:
     def read(self, file_name: str) -> bytes:
         raise NotImplementedError
 
+    def read_json(self, file_name: str) -> dict:
+        raise NotImplementedError
+
     def write(self, file_name: str, data: bytes, container: str | None = None) -> None:
+        raise NotImplementedError
+
+    def write_json(self, file_name: str, data: dict) -> None:
         raise NotImplementedError
 
     def create_folder(self, folder_name: str) -> None:

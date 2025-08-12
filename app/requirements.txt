@@ -7,9 +7,14 @@ injector
 aiohttp
 ddgs
 playwright
+langchain
+langchain-community
+langchain_anthropic
 
 # Testing dependencies
 pytest
 pytest-cov
 pytest-asyncio
 Faker
+langdetect
+pandas
